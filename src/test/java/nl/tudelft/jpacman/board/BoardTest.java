@@ -43,17 +43,4 @@ class BoardTest {
 	assertThat(board.squareAt(0, 0)).isEqualTo(bs);
     }
     
-    @Test
-    void testSquareAtNull() {
-	BasicSquare bs = null;
-	
-	Square[][] grid = {
-	    { bs }
-	};
-	
-	Board board = new Board(grid);
-	
-	assertThat(board.squareAt(0, 0)).isEqualTo(bs);
-    
-    }
 }
