@@ -45,6 +45,6 @@ public class DirectionTest {
     @Test
     void testWest() {
         Direction west = Direction.valueOf("WEST");
-        assertThat(west.getDeltaX()).isEqualTo(1);
+        assertThat(west.getDeltaX()).isEqualTo(-1);
     }
 }
