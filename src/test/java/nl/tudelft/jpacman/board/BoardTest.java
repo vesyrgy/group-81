@@ -17,12 +17,13 @@ class BoardTest {
     @Test
     void testBasicSquare() {
 	
-	Square[][] basicSquare = {
-	    { mock(Square.class) },
-	    { mock(Square.class) },
+	BasicSquare bs = new BasicSquare();
+	
+	Square[][] grid = {
+	    { bs }
 	};
 	
-	Board board = new Board(basicSquare);
+	Board board = new Board(grid);
 	
 	assertTrue(board.invariant());
     }
@@ -31,30 +32,28 @@ class BoardTest {
     //	that was used to create the board.
     @Test
     void testSquareAt1() {
-	Square square = mock(Square.class);
+	BasicSquare bs = new BasicSquare();
 	
-	Square[][] basicSquare = {
-	    { square },
-	    { square },
+	Square[][] grid = {
+	    { bs }
 	};
 	
-	Board board = new Board(basicSquare);
+	Board board = new Board(grid);
 	
-	assertThat(board.squareAt(0, 0)).isEqualTo(square);
+	assertThat(board.squareAt(0, 0)).isEqualTo(bs);
     }
     
     @Test
     void testSquareAtNull() {
-	Square square = null;
+	BasicSquare bs = null;
 	
-	Square[][] basicSquare = {
-	    { square },
-	    { square },
+	Square[][] grid = {
+	    { bs }
 	};
 	
-	Board board = new Board(basicSquare);
+	Board board = new Board(grid);
 	
-	assertThat(board.squareAt(0, 0)).isEqualTo(square);
+	assertThat(board.squareAt(0, 0)).isEqualTo(bs);
     
     }
 }
