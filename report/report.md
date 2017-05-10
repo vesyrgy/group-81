@@ -45,3 +45,5 @@ to tell us that we should investigate the call to `game.move(player, Direction.E
 it does not tell us whether the problem resides with the method itself or with the 
 objects that are being passed _to_ the method.
 
+
+#3.2 Feature-Based Testing
