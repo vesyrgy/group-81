@@ -37,3 +37,11 @@ test is line 68:
 `game.move(player, Direction.EAST);`
 
 So, the smoke test tells us that we should investigate this method call further.
+
+##3.1.3 
+When we changed the `board.Direction.getDeltaX()` method, the smoke test failed in
+exactly the same way as in the previous exercise. So, while the smoke test _is_ able
+to tell us that we should investigate the call to `game.move(player, Direction.EAST);`,
+it does not tell us whether the problem resides with the method itself or with the 
+objects that are being passed _to_ the method.
+
