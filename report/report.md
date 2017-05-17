@@ -22,7 +22,7 @@ method, the smoke test generated the error:
  Expected :10
  Actual   :0`
 
-The trace reveeals: 
+The trace reveals: 
 
 `at nl.tudelft.jpacman.LauncherSmokeTest.smokeTest(LauncherSmokeTest.java:69)`
 
@@ -47,3 +47,9 @@ objects that are being passed _to_ the method.
 
 
 #3.2 Feature-Based Testing
+
+##3.2.6
+For the second `Given` statement in S2.4 it is hard to realise proper timing of movements,
+in order for the player to be next to a ghost.
+For the `When` statement in S2.5 it is hard to realise exact timing of movements, so that
+pacman has eaten all but one pellets, without colliding with a ghost.
