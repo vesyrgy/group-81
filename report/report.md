@@ -68,5 +68,19 @@ scenarios in the game.
 
 #3.3 Boundary Testing 
 
-##3.3.9
+##3.3.9 
 
+See 3.3.9_domain_matrix.png
+
+#3.4
+
+##3.4.11
+
+##3.4.12
+
+##3.4.13
+
+The difference between `assertTrue(a == 1)` and `assertEquals(a, 1)` is that
+the 
+
+##3.4.14
