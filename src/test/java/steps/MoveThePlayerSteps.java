@@ -17,13 +17,19 @@ import nl.tudelft.jpacman.group81.MyExtension;
 public class MoveThePlayerSteps {
 
     private MyExtension launcher;
-
     private Game getGame() { return launcher.getGame(); }
+
+    @Before("@framework")
+    public void setup() {
+        launcher = new MyExtension();
+        launcher.launch();
+    }
+
 
     @Given("^the game has started$")
     public void the_game_has_started() {
-        launcher = new MyExtension();
-        launcher.launch();
+
+
         getGame().start();
         assertThat(getGame().isInProgress()).isTrue();
 
@@ -101,6 +107,10 @@ public class MoveThePlayerSteps {
         //throw new PendingException();
     }
 
+    @After("@framework")
+    public void tearDownUI() {
+        launcher.dispose();
+    }
 
 }
 
