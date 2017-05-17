@@ -1,4 +1,4 @@
-package cucumber;
+package steps;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
@@ -14,8 +14,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         snippets = SnippetType.CAMELCASE,
-        glue = {"cucumber"},
-        features = "classpath:frameworkfeatures/")
+        glue = {"cucumber.steps"},
+        features = "classpath:frameworkfeatures/move_the_player")
 public class CucumberTest {
 
     /*
