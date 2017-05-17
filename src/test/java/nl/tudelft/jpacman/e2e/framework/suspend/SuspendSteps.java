@@ -27,7 +27,7 @@ public class SuspendSteps {
     /**
      * Start the game.
      */
-    @Given("^the game has started$")
+    @Given("^the game has been started$")
     public void theGameHasStarted() {
         launcher.getGame().start();
     }

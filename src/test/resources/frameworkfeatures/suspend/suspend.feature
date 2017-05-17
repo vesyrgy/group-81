@@ -6,7 +6,7 @@ Feature: Suspend the game
 
   @S4.1
   Scenario: Suspend the game
-    Given the game has started
+    Given the game has been started
     When the user presses the stop button
     Then the game is suspended
 
