@@ -1,4 +1,4 @@
-@S2 @framework
+@S2 @move_the_player
 Feature: Start to play
   As a player
   I want to move my Pacman around on the board

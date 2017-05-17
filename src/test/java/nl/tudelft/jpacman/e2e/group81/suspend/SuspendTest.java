@@ -1,4 +1,4 @@
-package nl.tudelft.jpacman.e2e.framework.suspend;
+package nl.tudelft.jpacman.e2e.group81.suspend;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
@@ -14,8 +14,8 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         //plugin = {"pretty"},
         snippets = SnippetType.CAMELCASE,
-        glue = {"nl.tudelft.jpacman.e2e.framework.suspend"},
-        features = "classpath:frameworkfeatures/suspend")
+        glue = {"nl.tudelft.jpacman.e2e.group81.suspend"},
+        features = "classpath:group81features/suspend")
 public class SuspendTest {
 
     /*

@@ -1,4 +1,4 @@
-package nl.tudelft.jpacman.e2e.framework.move_the_player;
+package nl.tudelft.jpacman.e2e.group81.move_the_player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -51,7 +51,7 @@ public class MoveThePlayerSteps {
     private TestObserver observer;
 
 
-    @Before("@framework")
+    @Before("@move_the_player")
     public void setup() {
         //  use a map where the Pacman is next to a pellet, a wall, and an empty cell
         launcher = new MyExtension().withMapFile("/testMap1.txt");
@@ -72,7 +72,7 @@ public class MoveThePlayerSteps {
     }
 
     @Given("^my Pacman is next to a square containing a pellet$")
-    public void my_Pacman_is_next_to_a_square_containing_a_pellet() throws Throwable {
+    public void my_Pacman_is_next_to_a_square_containing_a_pellet() {
         // Get the player's square
         square = player.getSquare();
         //  Pick the direrection of an empty square in textMap1.txt & set the destination square
@@ -84,26 +84,26 @@ public class MoveThePlayerSteps {
     }
 
     @When("^I press an arrow key towards that square$")
-    public void i_press_an_arrow_key_towards_that_square() throws Throwable {
+    public void i_press_an_arrow_key_towards_that_square() {
         // simulate a call to move(), using whereToGo, which is a direction defined by an @Given method
         getGame().move(player,whereToGo);
 
     }
 
     @Then("^my Pacman can move to that square$")
-    public void my_Pacman_can_move_to_that_square() throws Throwable {
+    public void my_Pacman_can_move_to_that_square() {
         //  check to see that the current square is the square to which we wanted to move
-        assertThat(player.getSquare().equals(newSquare)).isTrue();
+        assertThat(player.getSquare()).isEqualTo(newSquare);
     }
 
     @Then("^I earn the points for the pellet$")
-    public void i_earn_the_points_for_the_pellet() throws Throwable {
+    public void i_earn_the_points_for_the_pellet() {
         //  check if the score has been incremented
         assertThat(player.getScore() > score).isTrue();
     }
 
     @Then("^the pellet disappears from that square$")
-    public void the_pellet_disappears_from_that_square() throws Throwable {
+    public void the_pellet_disappears_from_that_square() {
         //  check to see if the square to which the player has moved no longer contains a Pellet
         for(Unit occupant: player.getSquare().getOccupants()) {
             assertThat(occupant instanceof Pellet).isFalse();
@@ -111,7 +111,7 @@ public class MoveThePlayerSteps {
     }
 
     @Given("^my Pacman is next to an empty square$")
-    public void my_Pacman_is_next_to_an_empty_square() throws Throwable {
+    public void my_Pacman_is_next_to_an_empty_square() {
         square = player.getSquare();
         //  Pick the direrection of an empty square in textMap1.txt & set the destination square
         whereToGo = Direction.WEST;
@@ -121,13 +121,13 @@ public class MoveThePlayerSteps {
     }
 
     @Then("^my points remain the same$")
-    public void my_points_remain_the_same() throws Throwable {
+    public void my_points_remain_the_same() {
         //  check if the score is still the same
         assertThat(player.getScore()).isEqualTo(score);
     }
 
     @Given("^my Pacman is next to a cell containing a wall$")
-    public void my_Pacman_is_next_to_a_cell_containing_a_wall() throws Throwable {
+    public void my_Pacman_is_next_to_a_cell_containing_a_wall() {
         square = player.getSquare();
         //  Pick the direrection of a wall in textMap1.txt & set the destination square
         whereToGo = Direction.NORTH;
@@ -137,13 +137,13 @@ public class MoveThePlayerSteps {
     }
 
     @When("^I press an arrow key towards that cell$")
-    public void i_press_an_arrow_key_towards_that_cell() throws Throwable {
+    public void i_press_an_arrow_key_towards_that_cell() {
         // simulate a call to move(), using whereToGo, which is a direction defined by an @Given method
         getGame().move(player,whereToGo);
     }
 
     @Then("^the move is not conducted$")
-    public void the_move_is_not_conducted() throws Throwable {
+    public void the_move_is_not_conducted() {
         //  Check to see if the player is still on the same square
         assertThat(player.getSquare()).isEqualTo(square);
     }
@@ -155,7 +155,7 @@ public class MoveThePlayerSteps {
     }
 
     @Then("^then all moves from ghosts and the player are suspended$")
-    public void then_all_moves_from_ghosts_and_the_player_are_suspended() throws Throwable {
+    public void then_all_moves_from_ghosts_and_the_player_are_suspended() {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
@@ -193,7 +193,7 @@ public class MoveThePlayerSteps {
         assertThat(observer.getLevelsWon()).isEqualTo(1);
     }
 
-    @After("@framework")
+    @After("@move_the_player")
     public void tearDownUI() {
         launcher.dispose();
     }
