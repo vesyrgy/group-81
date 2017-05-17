@@ -13,13 +13,33 @@ import nl.tudelft.jpacman.game.*;
 import nl.tudelft.jpacman.group81.MyExtension;
 import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.board.*;
-import nl.tudelft.jpacman.sprite.PacManSprites;
-import nl.tudelft.jpacman.sprite.SpriteStore;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
  * @author Lars Ysla
  */
 public class MoveThePlayerSteps {
+
+    private class TestObserver implements Level.LevelObserver {
+        private int levelsWon = 0;
+        private int levelsLost = 0;
+
+        public int getLevelsWon() {
+            return levelsWon;
+        }
+
+        public int getLevelsLost() {
+            return levelsLost;
+        }
+
+        public void levelWon() {
+            levelsWon ++;
+        }
+
+        public void levelLost() {
+            levelsLost ++;
+        }
+    }
 
     private Launcher launcher;
     private Game getGame() { return launcher.getGame(); }
@@ -28,6 +48,7 @@ public class MoveThePlayerSteps {
     private Square newSquare;
     private Direction whereToGo;
     private int score;
+    private TestObserver observer;
 
 
     @Before("@framework")
@@ -40,6 +61,8 @@ public class MoveThePlayerSteps {
 
     @Given("^the game has started$")
     public void the_game_has_started() {
+        observer = new TestObserver();
+        getGame().getLevel().addObserver(observer);
         getGame().start();
         assertThat(getGame().isInProgress()).isTrue();
 
@@ -135,6 +158,39 @@ public class MoveThePlayerSteps {
     public void then_all_moves_from_ghosts_and_the_player_are_suspended() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
+    }
+
+    @Given("^my Pacman is next to a cell containing a ghost$")
+    public void my_pacman_next_to_a_cell_containing_a_ghost() {
+        // Get the player's square
+        square = player.getSquare();
+        // Get a square which contains a pellet according to  board.txt
+        newSquare = square.getSquareAt(Direction.SOUTH);
+        // Define the direction we want to move to
+        whereToGo = Direction.SOUTH;
+        // Make sure the square does indeed contain a pellet
+        assertThat(newSquare.getOccupants().get(0) instanceof Ghost).isTrue();
+    }
+
+    @Then("^my Pacman dies$")
+    public void my_pacman_dies() {
+        assertThat(player.isAlive()).isFalse();
+    }
+
+    @Then("^the game is over$")
+    public void the_game_is_over() {
+        assertThat(getGame().isInProgress()).isFalse();
+    }
+
+    @When("^I have eaten the last pellet$")
+    public void i_have_eaten_my_last_pellet() {
+        getGame().move(player, Direction.EAST);
+        assertThat(getGame().getLevel().remainingPellets()).isEqualTo(0);
+    }
+
+    @Then("^I win the game$")
+    public void i_win_the_game() {
+        assertThat(observer.getLevelsWon()).isEqualTo(1);
     }
 
     @After("@framework")
