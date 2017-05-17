@@ -76,13 +76,15 @@ public class MoveThePlayerSteps {
     @Then("^I earn the points for the pellet$")
     public void i_earn_the_points_for_the_pellet() throws Throwable {
         //  check if the score has been incremented
-        assertThat(player.getScore() > score);
+        assertThat(player.getScore() > score).isTrue();
     }
 
     @Then("^the pellet disappears from that square$")
     public void the_pellet_disappears_from_that_square() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
+        //  check to see if the square to which the player has moved no longer contains a Pellet
+        for(Unit occupant: player.getSquare().getOccupants()) {
+            assertThat(occupant instanceof Pellet).isFalse();
+        }
     }
 
     @Given("^my Pacman is next to an empty square$")
@@ -95,8 +97,8 @@ public class MoveThePlayerSteps {
 
     @Then("^my points remain the same$")
     public void my_points_remain_the_same() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
+        //  check if the score is still the same
+        assertThat(player.getScore() == score).isTrue();
     }
 
     @Given("^my Pacman is next to a cell containing a wall$")
