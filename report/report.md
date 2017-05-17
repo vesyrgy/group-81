@@ -81,6 +81,16 @@ See 3.3.9_domain_matrix.png
 ##3.4.13
 
 The difference between `assertTrue(a == 1)` and `assertEquals(a, 1)` is that
-the 
+the `assertEquals` gives a comparison of the expected value with the actual value, 
+whereas `assertTrue` does not. So `assertEquals` is more useful, as it provides information
+that can be used debug a failing test. 
 
 ##3.4.14
+
+If a class contains large complex private methods, it often means that there is a design problem 
+(i.e. that the class violates the Single Responsibility Principle). Usually, this means the code should
+be refactored so that it uses public methods, which then can be tested just like the other public methods. 
+So, in the case of `MapParser`, however, such refactoring might not be necessary, since it does
+appear to be a more or less single-purpose class. Either way, it would be a good idea to test the methods, 
+because an error in one of these methods could result in squares that are improperly assigned, which would
+be difficult to debug in any other test. 
