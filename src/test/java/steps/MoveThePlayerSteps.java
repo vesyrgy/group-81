@@ -7,8 +7,10 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-import nl.tudelft.jpacman.game.Game;
+import nl.tudelft.jpacman.game.*;
 import nl.tudelft.jpacman.group81.MyExtension;
+import nl.tudelft.jpacman.level.*
+import nl.tudelft.jpacman.board.*;
 
 /**
  * @author Lars Ysla
@@ -17,6 +19,9 @@ public class MoveThePlayerSteps {
 
     private MyExtension launcher;
     private Game getGame() { return launcher.getGame(); }
+    private Player player;
+    private Square square;
+
 
     @Before("@framework")
     public void setup() {
@@ -27,27 +32,31 @@ public class MoveThePlayerSteps {
 
     @Given("^the game has started$")
     public void the_game_has_started() {
-
-
         getGame().start();
         assertThat(getGame().isInProgress()).isTrue();
-
     }
 
     @Given("^my Pacman is next to a square containing a pellet$")
     public void my_Pacman_is_next_to_a_square_containing_a_pellet() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
+        //  Get the player
+        player = getGame().getPlayers().get(0);
+        //  Get a square which contains a pellet according to  board.txt
+        square = player.getSquare().getSquareAt(Direction.EAST);
+        /* Make sure the square does indeed contain a pellet */
+        assertThat(square.getOccupants(0)).isTrue();
+
     }
 
     @When("^I press an arrow key towards that square$")
     public void i_press_an_arrow_key_towards_that_square() throws Throwable {
+
         // Write code here that turns the phrase above into concrete actions
         //throw new PendingException();
     }
 
     @Then("^my Pacman can move to that square$")
     public void my_Pacman_can_move_to_that_square() throws Throwable {
+
         // Write code here that turns the phrase above into concrete actions
         //throw new PendingException();
     }
