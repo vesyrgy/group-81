@@ -65,8 +65,13 @@ different Ghosts not only move differently from each other, but also differently
 scenarios in the game. 
 
 
+#3.4 Understanding your tests
 
-#3.3 Boundary Testing 
+##3.4.1
+A lot of unit tests do the same setting up during the Arrange part.
+To avoid code repetition in unit testing during the Arrange part, we can define global methods and variables 
+outside the unit test methods that provide setting up basic things. Which can be used by several unit tests.
 
-##3.3.9
-
+##3.4.2
+Using clean instances, test methods are independent of each other. Modification of one of them does not 
+influence whether another test passes. Also developers don't have to run all tests at once necessarily.
