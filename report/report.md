@@ -51,4 +51,7 @@ objects that are being passed _to_ the method.
 
 All of the scenarios in User Story 3 pertain to ghosts, which are automatically moved around.
 Because of this, it is not possible to test the moves using `game.move()` as before. Moreover, 
-
+Ghost itself is an abstract class, which means we would have to test the individual ghosts, thereby 
+creating additional test cases. Furthermore, the Ghost classes do not have built-in methods to return the 
+current square in the way that Player does. The situation is further complicated by the fact that the 
+Ghosts move randomly
