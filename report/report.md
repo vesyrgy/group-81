@@ -63,3 +63,6 @@ creating additional test cases. Furthermore, the Ghost classes do not have built
 current square in the way that Player does. The situation is further complicated by the fact that the 
 different Ghosts not only move differently from each other, but also differently depending on certain 
 scenarios in the game. 
+
+
+

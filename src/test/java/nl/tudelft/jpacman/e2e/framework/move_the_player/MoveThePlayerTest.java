@@ -15,7 +15,7 @@ import org.junit.runner.RunWith;
         plugin = {"pretty"},
         snippets = SnippetType.CAMELCASE,
         glue = {"nl.tudelft.jpacman.e2e.framework.move_the_player"},
-        features = "classpath:frameworkfeatures/move_the_player")
+        features = "classpath:frameworkfeatures")
 public class MoveThePlayerTest {
 
     /*
