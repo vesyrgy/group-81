@@ -47,3 +47,8 @@ objects that are being passed _to_ the method.
 
 
 #3.2 Feature-Based Testing
+##3.2.8
+
+All of the scenarios in User Story 3 pertain to ghosts, which are automatically moved around.
+Because of this, it is not possible to test the moves using `game.move()` as before. Moreover, 
+
