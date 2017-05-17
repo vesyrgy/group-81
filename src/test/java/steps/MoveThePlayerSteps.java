@@ -9,7 +9,7 @@ import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import nl.tudelft.jpacman.game.*;
 import nl.tudelft.jpacman.group81.MyExtension;
-import nl.tudelft.jpacman.level.*
+import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.board.*;
 
 /**
@@ -21,6 +21,8 @@ public class MoveThePlayerSteps {
     private Game getGame() { return launcher.getGame(); }
     private Player player;
     private Square square;
+    private Square newSquare;
+    private Direction whereToGo;
 
 
     @Before("@framework")
@@ -38,33 +40,37 @@ public class MoveThePlayerSteps {
 
     @Given("^my Pacman is next to a square containing a pellet$")
     public void my_Pacman_is_next_to_a_square_containing_a_pellet() throws Throwable {
-        //  Get the player
+        // Get the player and the square
         player = getGame().getPlayers().get(0);
-        //  Get a square which contains a pellet according to  board.txt
-        square = player.getSquare().getSquareAt(Direction.EAST);
-        /* Make sure the square does indeed contain a pellet */
-        assertThat(square.getOccupants(0)).isTrue();
+        square = player.getSquare();
+        // Get a square which contains a pellet according to  board.txt
+        newSquare = square.getSquareAt(Direction.EAST);
+        // Define the direction we want to move to
+        whereToGo = Direction.EAST;
+        // Make sure the square does indeed contain a pellet
+        assertThat(square.getOccupants().contains(Pellet.class)).isTrue();
 
     }
 
     @When("^I press an arrow key towards that square$")
     public void i_press_an_arrow_key_towards_that_square() throws Throwable {
+        // simulate a call to move(), using whereToGo, which is a direction defined by an @Given method
+        getGame().move(player, whereToGo);
 
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
     }
 
     @Then("^my Pacman can move to that square$")
     public void my_Pacman_can_move_to_that_square() throws Throwable {
+        //  check that the square to which we want to move is accessible
+        assertThat(player.getSquare().getSquareAt(whereToGo).isAccessibleTo(player)).isTrue();
+        //  check to see that the current square is the square to which we wanted to move
+        assertThat(player.getSquare().equals(newSquare));
 
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
     }
 
     @Then("^I earn the points for the pellet$")
     public void i_earn_the_points_for_the_pellet() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
+
     }
 
     @Then("^the pellet disappears from that square$")
