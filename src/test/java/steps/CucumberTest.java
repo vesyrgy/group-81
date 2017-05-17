@@ -14,7 +14,7 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         snippets = SnippetType.CAMELCASE,
-        glue = {"cucumber.steps"},
+        glue = {"steps"},
         features = "classpath:frameworkfeatures")
 public class CucumberTest {
 

@@ -11,6 +11,8 @@ import nl.tudelft.jpacman.game.*;
 import nl.tudelft.jpacman.group81.MyExtension;
 import nl.tudelft.jpacman.level.*;
 import nl.tudelft.jpacman.board.*;
+import nl.tudelft.jpacman.npc.NPC;
+import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
  * @author Lars Ysla
@@ -119,6 +121,45 @@ public class MoveThePlayerSteps {
     public void then_all_moves_from_ghosts_and_the_player_are_suspended() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         //throw new PendingException();
+    }
+
+    @Given("^the game has started with a small board$")
+    public void the_game_has_started_with_a_small_board() {
+        launcher.dispose();
+        launcher = new MyExtension();
+        launcher.withMapFile("simplemap.txt");
+        getGame().start();
+        assertThat(getGame().isInProgress()).isTrue();
+    }
+
+
+    @Given("^my Pacman is next to a cell containing a ghost$")
+    public void my_pacman_next_to_a_square_containing_a_pellet() {
+        // Get the player and the square
+        player = getGame().getPlayers().get(0);
+        square = player.getSquare();
+        // Get a square which contains a pellet according to  board.txt
+        newSquare = square.getSquareAt(Direction.EAST);
+        // Define the direction we want to move to
+        whereToGo = Direction.EAST;
+        // Make sure the square does indeed contain a pellet
+        assertThat(square.getOccupants().contains(Ghost.class)).isTrue();
+    }
+
+    @Then("^my Pacman dies$")
+    public void my_pacman_dies() {
+        assertThat(player.isAlive()).isFalse();
+    }
+
+    @Then("^the game is over$")
+    public void the_game_is_over() {
+        assertThat(getGame().isInProgress()).isFalse();
+    }
+
+    @When("^I have eaten the last pellet$")
+    public void i_have_eaten_my_last_pellet() {
+        getGame().move(player, Direction.EAST);
+        assertThat(getGame().getLevel().remainingPellets()).isEqualTo(0);
     }
 
     @After("@framework")
