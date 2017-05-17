@@ -1,5 +1,6 @@
-package nl.tudelft.jpacman.e2e.framework.suspend;
+package nl.tudelft.jpacman.e2e.group81.suspend;
 
+import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
@@ -15,10 +16,10 @@ public class SuspendSteps {
 
     private Launcher launcher;
 
-    /**
-     * Create a game and launch it.
-     */
-    @Before
+//    /**
+//     * Create a game and launch it.
+//     */
+    @Before("@suspend")
     public void createGame() {
         launcher = new Launcher();
         launcher.launch();
@@ -71,5 +72,10 @@ public class SuspendSteps {
     @Then("^the game is resumed$")
     public void theGameIsResumed() throws Throwable {
         assertThat(launcher.getGame().isInProgress()).isTrue();
+    }
+
+    @After("@suspend")
+    public void tearDownUI() {
+        launcher.dispose();
     }
 }

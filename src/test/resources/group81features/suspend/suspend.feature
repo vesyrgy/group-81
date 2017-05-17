@@ -1,4 +1,4 @@
-@S4 @framework
+@S4 @suspend
 Feature: Suspend the game
   As a player
   I want to be able to suspend the game
