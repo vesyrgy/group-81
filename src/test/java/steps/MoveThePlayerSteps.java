@@ -7,6 +7,7 @@ import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
+import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.game.*;
 import nl.tudelft.jpacman.group81.MyExtension;
 import nl.tudelft.jpacman.level.*;
@@ -19,17 +20,19 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
  */
 public class MoveThePlayerSteps {
 
-    private MyExtension launcher;
+    private Launcher launcher;
     private Game getGame() { return launcher.getGame(); }
     private Player player;
     private Square square;
     private Square newSquare;
     private Direction whereToGo;
+    private int score;
 
 
     @Before("@framework")
     public void setup() {
-        launcher = new MyExtension();
+        //  use a map where the Pacman is next to a pellet, a wall, and an empty cell
+        launcher = new MyExtension().withMapFile("/testMap1.txt");
         launcher.launch();
     }
 
@@ -38,59 +41,66 @@ public class MoveThePlayerSteps {
     public void the_game_has_started() {
         getGame().start();
         assertThat(getGame().isInProgress()).isTrue();
+
+        //  Set the player and score variables
+        player = getGame().getPlayers().get(0);
+        score = player.getScore();
     }
 
     @Given("^my Pacman is next to a square containing a pellet$")
     public void my_Pacman_is_next_to_a_square_containing_a_pellet() throws Throwable {
-        // Get the player and the square
-        player = getGame().getPlayers().get(0);
+        // Get the player's square
         square = player.getSquare();
         // Get a square which contains a pellet according to  board.txt
         newSquare = square.getSquareAt(Direction.EAST);
         // Define the direction we want to move to
         whereToGo = Direction.EAST;
         // Make sure the square does indeed contain a pellet
-        assertThat(square.getOccupants().contains(Pellet.class)).isTrue();
+        assertThat(newSquare.getOccupants().get(0) instanceof Pellet).isTrue();
 
     }
 
     @When("^I press an arrow key towards that square$")
     public void i_press_an_arrow_key_towards_that_square() throws Throwable {
+        //  check that the square to which we want to move is accessible
+        assertThat(newSquare.isAccessibleTo(player)).isTrue();
         // simulate a call to move(), using whereToGo, which is a direction defined by an @Given method
-        getGame().move(player, whereToGo);
+        getGame().move(player,whereToGo);
 
     }
 
     @Then("^my Pacman can move to that square$")
     public void my_Pacman_can_move_to_that_square() throws Throwable {
-        //  check that the square to which we want to move is accessible
-        assertThat(player.getSquare().getSquareAt(whereToGo).isAccessibleTo(player)).isTrue();
         //  check to see that the current square is the square to which we wanted to move
-        assertThat(player.getSquare().equals(newSquare));
-
+        assertThat(player.getSquare().equals(newSquare)).isTrue();
     }
 
     @Then("^I earn the points for the pellet$")
     public void i_earn_the_points_for_the_pellet() throws Throwable {
-
+        //  check if the score has been incremented
+        assertThat(player.getScore() > score).isTrue();
     }
 
     @Then("^the pellet disappears from that square$")
     public void the_pellet_disappears_from_that_square() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
+        //  check to see if the square to which the player has moved no longer contains a Pellet
+        for(Unit occupant: player.getSquare().getOccupants()) {
+            assertThat(occupant instanceof Pellet).isFalse();
+        }
     }
 
     @Given("^my Pacman is next to an empty square$")
     public void my_Pacman_is_next_to_an_empty_square() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
+        square = player.getSquare();
+        whereToGo = Direction.WEST;
+        newSquare = square.getSquareAt(whereToGo);
+        assertThat(newSquare.getOccupants().isEmpty()).isTrue();
     }
 
     @Then("^my points remain the same$")
     public void my_points_remain_the_same() throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        //throw new PendingException();
+        //  check if the score is still the same
+        assertThat(player.getScore() == score).isTrue();
     }
 
     @Given("^my Pacman is next to a cell containing a wall$")
