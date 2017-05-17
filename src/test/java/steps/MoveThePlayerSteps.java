@@ -20,6 +20,27 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
  */
 public class MoveThePlayerSteps {
 
+    private class TestObserver implements Level.LevelObserver {
+        private int levelsWon = 0;
+        private int levelsLost = 0;
+
+        public int getLevelsWon() {
+            return levelsWon;
+        }
+
+        public int getLevelsLost() {
+            return levelsLost;
+        }
+
+        public void levelWon() {
+            levelsWon ++;
+        }
+
+        public void levelLost() {
+            levelsLost ++;
+        }
+    }
+
     private Launcher launcher;
     private Game getGame() { return launcher.getGame(); }
     private Player player;
@@ -27,6 +48,7 @@ public class MoveThePlayerSteps {
     private Square newSquare;
     private Direction whereToGo;
     private int score;
+    private TestObserver observer;
 
 
     @Before("@framework")
@@ -39,6 +61,8 @@ public class MoveThePlayerSteps {
 
     @Given("^the game has started$")
     public void the_game_has_started() {
+        observer = new TestObserver();
+        getGame().getLevel().addObserver(observer);
         getGame().start();
         assertThat(getGame().isInProgress()).isTrue();
 
@@ -133,27 +157,16 @@ public class MoveThePlayerSteps {
         //throw new PendingException();
     }
 
-    @Given("^the game has started with a small board$")
-    public void the_game_has_started_with_a_small_board() {
-        launcher.dispose();
-        launcher = new MyExtension();
-        launcher.withMapFile("simplemap.txt");
-        getGame().start();
-        assertThat(getGame().isInProgress()).isTrue();
-    }
-
-
     @Given("^my Pacman is next to a cell containing a ghost$")
-    public void my_pacman_next_to_a_square_containing_a_pellet() {
-        // Get the player and the square
-        player = getGame().getPlayers().get(0);
+    public void my_pacman_next_to_a_cell_containing_a_ghost() {
+        // Get the player's square
         square = player.getSquare();
         // Get a square which contains a pellet according to  board.txt
-        newSquare = square.getSquareAt(Direction.EAST);
+        newSquare = square.getSquareAt(Direction.SOUTH);
         // Define the direction we want to move to
-        whereToGo = Direction.EAST;
+        whereToGo = Direction.SOUTH;
         // Make sure the square does indeed contain a pellet
-        assertThat(square.getOccupants().contains(Ghost.class)).isTrue();
+        assertThat(newSquare.getOccupants().get(0) instanceof Ghost).isTrue();
     }
 
     @Then("^my Pacman dies$")
@@ -170,6 +183,11 @@ public class MoveThePlayerSteps {
     public void i_have_eaten_my_last_pellet() {
         getGame().move(player, Direction.EAST);
         assertThat(getGame().getLevel().remainingPellets()).isEqualTo(0);
+    }
+
+    @Then("^I win the game$")
+    public void i_win_the_game() {
+        assertThat(observer.getLevelsWon()).isEqualTo(1);
     }
 
     @After("@framework")
