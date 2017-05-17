@@ -1,4 +1,4 @@
-package steps;
+package nl.tudelft.jpacman.e2e.framework.move_the_player;
 
 import cucumber.api.CucumberOptions;
 import cucumber.api.SnippetType;
@@ -14,9 +14,9 @@ import org.junit.runner.RunWith;
 @CucumberOptions(
         plugin = {"pretty"},
         snippets = SnippetType.CAMELCASE,
-        glue = {"steps"},
-        features = "classpath:frameworkfeatures")
-public class CucumberTest {
+        glue = {"nl.tudelft.jpacman.e2e.framework.move_the_player"},
+        features = "classpath:frameworkfeatures/move_the_player")
+public class MoveThePlayerTest {
 
     /*
      * This class should be empty, step definitions should be in separate classes.

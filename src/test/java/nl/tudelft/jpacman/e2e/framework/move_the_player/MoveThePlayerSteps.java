@@ -1,4 +1,4 @@
-package steps;
+package nl.tudelft.jpacman.e2e.framework.move_the_player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
