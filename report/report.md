@@ -53,3 +53,13 @@ For the second `Given` statement in S2.4 it is hard to realise proper timing of 
 in order for the player to be next to a ghost.
 For the `When` statement in S2.5 it is hard to realise exact timing of movements, so that
 pacman has eaten all but one pellets, without colliding with a ghost.
+
+##3.2.8
+
+All of the scenarios in User Story 3 pertain to ghosts, which are automatically moved around.
+Because of this, it is not possible to test the moves using `game.move()` as before. Moreover, 
+Ghost itself is an abstract class, which means we would have to test the individual ghosts, thereby 
+creating additional test cases. Furthermore, the Ghost classes do not have built-in methods to return the 
+current square in the way that Player does. The situation is further complicated by the fact that the 
+different Ghosts not only move differently from each other, but also differently depending on certain 
+scenarios in the game. 
