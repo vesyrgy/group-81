@@ -102,8 +102,16 @@ fail an isolated test. In conclusion, it would probably be a good idea to test t
 
 ##3.5 
 
-There one warnings that remains in IntelliJ.
+###3.5.15
 
-###WithinBordersTest.java
-1)  IntelliJ complains that `public class WithinBordersTest` can be private. We left this public
-    because the comment in `ParameterizedAssignment` specifically states that it needs to be public. 
+There is one warning that remains in IntelliJ. IntelliJ complains that `public class WithinBordersTest` can be private. We left this public
+because the comment in `ParameterizedAssignment` specifically states that it needs to be public. 
+
+In terms of the additional adequacy achieved thanks to our classes, we measured the new overall
+coverage to be 89%, with a line coverage of 84%. So, our efforts have contributed 2 percentage points 
+to the overall line coverage, as compared to what we measured in question 3.1.1.
+
+The continuous integration server confirmed that our builds worked properly in most cases. We generally 
+tried to avoid successively failing builds on DevHub, as evidenced by the many green commits. We used Git
+very extensively. In general, we tried to make new branches for different exercises. This allowed us to divide 
+the work effectively and gives a very clear record of what was done. 
