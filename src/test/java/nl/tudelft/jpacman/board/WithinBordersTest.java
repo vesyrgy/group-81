@@ -18,7 +18,6 @@ import static org.assertj.core.api.Assertions.assertThat;
  * </code></pre>
  */
 
-
 @ParameterizedAssignment
 public class WithinBordersTest {
 

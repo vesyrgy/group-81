@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
  *
  * @author Arie van Deursen
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 class DirectionTest {
 
     /**

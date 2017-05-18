@@ -2,7 +2,6 @@ package nl.tudelft.jpacman.e2e.group81.move_the_player;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import cucumber.api.PendingException;
 import cucumber.api.java.After;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
@@ -26,6 +25,9 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
 @SuppressWarnings("PMD.TooManyMethods")
 public class MoveThePlayerSteps {
 
+    /**
+     *  The TestObserver is used to detect whether or not a level was won.
+     */
     private static class TestObserver implements Level.LevelObserver {
         private int levelsWon = 0;
 

@@ -8,6 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *  Test a basic board.
  *  @author Lars Ysla
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 class BoardTest {
 
     /**  Check that a simple 1x1 board is valid.
