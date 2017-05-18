@@ -87,10 +87,10 @@ that can be used debug a failing test.
 
 ##3.4.14
 
-If a class contains large complex private methods, it often means that there is a design problem 
-(i.e. that the class violates the Single Responsibility Principle). Usually, this means the code should
-be refactored so that it uses public methods, which then can be tested just like the other public methods. 
-So, in the case of `MapParser`, however, such refactoring might not be necessary, since it does
-appear to be a more or less single-purpose class. Either way, it would be a good idea to test the methods, 
-because an error in one of these methods could result in squares that are improperly assigned, which would
-be difficult to debug in any other test. 
+One could make the argument that it is not necessary to test the private methods of `MapParser` because 
+all of the end-to-end tests rely on a `Launcher` which makes use of `MapParser`. So, we would expect a 
+faulty `MapParser` to yield failing end-to-end tests. However, it is also the case that a faulty `MapParser`
+may make it difficult to debug the failing end-to-end tests, without having isolated tests of the private
+methods of `MapParser` itself. Furthermore, a passing test does necessarily not guarantee anything if the test
+itself has faults. So, a passing end-to-end test does not neceaarily guarantee that `MapParser` would not 
+fail an isolated test. In conclusion, it would probably be a good idea to test the private methods in isolation. 
