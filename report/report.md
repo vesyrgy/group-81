@@ -108,7 +108,6 @@ There are a few Checkstyle/PMD issues that remain:
 3)  
 
 ###MoveThePlayerSteps.java
-1)  PMD complains that this class contains too many methods. The reason we did not change this is because, according
-    to a TA, the step definitions should all be contained in the same file.
+1)  PMD complains that this class contains too many methods. 
     
 

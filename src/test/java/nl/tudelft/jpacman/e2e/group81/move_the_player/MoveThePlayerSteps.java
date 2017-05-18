@@ -18,6 +18,7 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
 /**
  * @author Lars Ysla
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class MoveThePlayerSteps {
 
     private static class TestObserver implements Level.LevelObserver {
