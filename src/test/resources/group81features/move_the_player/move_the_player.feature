@@ -28,17 +28,17 @@ Feature: Start to play
       When  I press an arrow key towards that cell
       Then  the move is not conducted
 
-    @S2.4
-    Scenario: The player dies
+  @S2.4
+  Scenario: The player dies
       Given the game has started
       And my Pacman is next to a cell containing a ghost
       When I press an arrow key towards that square
       Then my Pacman dies
       And the game is over
 
-      @S2.5
-      Scenario: The player wins
-        Given the game has started
-        And my Pacman is next to a square containing a pellet
-        When I have eaten the last pellet
-        Then I win the game
+  @S2.5
+  Scenario: The player wins
+      Given the game has started
+      And my Pacman is next to a square containing a pellet
+      When I have eaten the last pellet
+      Then I win the game
