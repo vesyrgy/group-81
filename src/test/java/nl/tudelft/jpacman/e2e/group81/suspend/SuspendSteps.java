@@ -16,9 +16,9 @@ public class SuspendSteps {
 
     private Launcher launcher;
 
-//    /**
-//     * Create a game and launch it.
-//     */
+    /**
+     * Create a game and launch it.
+     */
     @Before("@suspend")
     public void createGame() {
         launcher = new Launcher();
@@ -70,10 +70,13 @@ public class SuspendSteps {
      * Verify that the game resumed.
      */
     @Then("^the game is resumed$")
-    public void theGameIsResumed() throws Throwable {
+    public void theGameIsResumed() {
         assertThat(launcher.getGame().isInProgress()).isTrue();
     }
 
+    /**
+     * Close the UI after all tests are finished.
+     */
     @After("@suspend")
     public void tearDownUI() {
         launcher.dispose();
