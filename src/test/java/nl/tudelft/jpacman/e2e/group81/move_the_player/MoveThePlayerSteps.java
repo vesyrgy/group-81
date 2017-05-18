@@ -25,7 +25,7 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public class MoveThePlayerSteps {
-    
+
     private static class TestObserver implements Level.LevelObserver {
         private int levelsWon = 0;
 
@@ -185,15 +185,6 @@ public class MoveThePlayerSteps {
     @Then("^the move is not conducted$")
     public void the_move_is_not_conducted() {
         assertThat(player.getSquare()).isEqualTo(square);
-    }
-
-    /**
-     *
-     */
-    @Then("^then all moves from ghosts and the player are suspended$")
-    public void then_all_moves_from_ghosts_and_the_player_are_suspended() {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
     }
 
     /**
