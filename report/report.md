@@ -94,3 +94,21 @@ may make it difficult to debug the failing end-to-end tests, without having isol
 methods of `MapParser` itself. Furthermore, a passing test does necessarily not guarantee anything if the test
 itself has faults. So, a passing end-to-end test does not neceaarily guarantee that `MapParser` would not 
 fail an isolated test. In conclusion, it would probably be a good idea to test the private methods in isolation. 
+
+##3.5 
+
+There are a few Checkstyle/PMD issues that remain:
+
+###WithinBordersTest.java
+1)  Checkstyle complains that `public class WithinBordersTest` can be private. We left this public
+    because the comment in `ParameterizedAssignment` specifically states that it needs to be public. 
+2)  Checkstyle treats the CSV input to the parameterized test as a single line and complains that 
+    this line contains too many characters. This cannot be helped and is clearly a case of Checkstyle being
+    absurd. 
+3)  
+
+###MoveThePlayerSteps.java
+1)  PMD complains that this class contains too many methods. The reason we did not change this is because, according
+    to a TA, the step definitions should all be contained in the same file.
+    
+

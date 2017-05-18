@@ -20,7 +20,7 @@ import nl.tudelft.jpacman.npc.ghost.Ghost;
  */
 public class MoveThePlayerSteps {
 
-    private class TestObserver implements Level.LevelObserver {
+    private static class TestObserver implements Level.LevelObserver {
         private int levelsWon = 0;
         private int levelsLost = 0;
 

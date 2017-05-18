@@ -5,15 +5,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 /**
  * @author Lars Ysla
- */
-
-/**
- * A marker annotation for the auto-grader to identify a boundary testing solution.
  *
- * A Students Solution class for the boundary testing exercise should have the following:
+ * The class needs to have the following format to be automatically graded:
  *
  * <pre class="code"><code class="java">
  * &#064;ParameterizedAssignment
@@ -27,7 +22,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ParameterizedAssignment
 public class WithinBordersTest {
 
-    Square square = new BasicSquare();
+    private Square square = new BasicSquare();
 
     private final Square[][] grid = {
             { square, square, square, square, square, square },
@@ -39,8 +34,10 @@ public class WithinBordersTest {
 
     private final Board board = new Board(grid);
 
-    //  The values for the parameterized test have been hard-coded from the division calculations in the domain matrix.
-    //  For example, height/2 has been hard-coded as 3.
+    /**
+     *  The values for the parameterized test have been hard-coded from the division calculations in the domain matrix.
+     *  For example, height/2 has been hard-coded as 3.
+     */
     @ParameterizedTest
     @CsvSource({
             "0, 3, true",
@@ -53,8 +50,7 @@ public class WithinBordersTest {
             "2, 5, true"
     })
     void testWithinBorders(int x, int y, boolean z) {
-        assertThat(board.withinBorders(x,y)).isEqualTo(z);
-
+        assertThat(board.withinBorders(x, y)).isEqualTo(z);
     }
 
 }
