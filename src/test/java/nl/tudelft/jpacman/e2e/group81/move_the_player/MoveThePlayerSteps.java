@@ -9,40 +9,46 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 import nl.tudelft.jpacman.Launcher;
-import nl.tudelft.jpacman.game.*;
+import nl.tudelft.jpacman.board.Direction;
+import nl.tudelft.jpacman.board.Square;
+import nl.tudelft.jpacman.board.Unit;
+import nl.tudelft.jpacman.game.Game;
 import nl.tudelft.jpacman.group81.MyExtension;
-import nl.tudelft.jpacman.level.*;
-import nl.tudelft.jpacman.board.*;
+import nl.tudelft.jpacman.level.Level;
+import nl.tudelft.jpacman.level.Pellet;
+import nl.tudelft.jpacman.level.Player;
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 
 /**
+ * Step definitions for the Cucumber tests.
  * @author Lars Ysla
  */
+@SuppressWarnings("PMD.TooManyMethods")
 public class MoveThePlayerSteps {
 
+    /**
+     * Implement an observer that is used to see
+     * whether a level is won.
+     */
     private class TestObserver implements Level.LevelObserver {
         private int levelsWon = 0;
-        private int levelsLost = 0;
 
-        public int getLevelsWon() {
+        int getLevelsWon() {
             return levelsWon;
         }
 
-        public int getLevelsLost() {
-            return levelsLost;
-        }
-
         public void levelWon() {
-            levelsWon ++;
+            levelsWon++;
         }
 
         public void levelLost() {
-            levelsLost ++;
         }
     }
 
     private Launcher launcher;
-    private Game getGame() { return launcher.getGame(); }
+    private Game getGame() {
+        return launcher.getGame();
+    }
     private Player player;
     private Square square;
     private Square newSquare;
@@ -50,7 +56,10 @@ public class MoveThePlayerSteps {
     private int score;
     private TestObserver observer;
 
-
+    /**
+     * Initialize a clean launcher and launch it
+     * before every move_the_player test.
+     */
     @Before("@move_the_player")
     public void setup() {
         //  use a map where the Pacman is next to a pellet, a wall, and an empty cell
@@ -58,9 +67,13 @@ public class MoveThePlayerSteps {
         launcher.launch();
     }
 
-
+    /**
+     * Start a game and check that it is running.
+     */
     @Given("^the game has started$")
     public void the_game_has_started() {
+        // Register an observer, for knowing whether
+        // the level was won or lost/
         observer = new TestObserver();
         getGame().getLevel().addObserver(observer);
         getGame().start();
@@ -71,11 +84,15 @@ public class MoveThePlayerSteps {
         score = player.getScore();
     }
 
+    /**
+     *  Make sure the player is set to go to the east,
+     *  and check whether the east has a pellet.
+     */
     @Given("^my Pacman is next to a square containing a pellet$")
     public void my_Pacman_is_next_to_a_square_containing_a_pellet() {
         // Get the player's square
         square = player.getSquare();
-        //  Pick the direrection of an empty square in textMap1.txt & set the destination square
+        //  Pick the direction of an empty square in textMap1.txt & set the destination square
         whereToGo = Direction.EAST;
         newSquare = square.getSquareAt(whereToGo);
         // Make sure the square does indeed contain a pellet
@@ -83,33 +100,48 @@ public class MoveThePlayerSteps {
 
     }
 
+    /**
+     * Move the player in the direction it was set to move
+     * by a @Given method.
+     */
     @When("^I press an arrow key towards that square$")
     public void i_press_an_arrow_key_towards_that_square() {
-        // simulate a call to move(), using whereToGo, which is a direction defined by an @Given method
-        getGame().move(player,whereToGo);
+        getGame().move(player, whereToGo);
 
     }
 
+    /**
+     * Check to see that the current square is the square
+     * to which we wanted to move.
+     */
     @Then("^my Pacman can move to that square$")
     public void my_Pacman_can_move_to_that_square() {
-        //  check to see that the current square is the square to which we wanted to move
         assertThat(player.getSquare()).isEqualTo(newSquare);
     }
 
+    /**
+     * Check if the score has been incremented.
+     */
     @Then("^I earn the points for the pellet$")
     public void i_earn_the_points_for_the_pellet() {
-        //  check if the score has been incremented
         assertThat(player.getScore() > score).isTrue();
     }
 
+    /**
+     * Check if the square to which the player has moved no longer
+     * contains a pellet.
+     */
     @Then("^the pellet disappears from that square$")
     public void the_pellet_disappears_from_that_square() {
-        //  check to see if the square to which the player has moved no longer contains a Pellet
-        for(Unit occupant: player.getSquare().getOccupants()) {
+        for (Unit occupant: player.getSquare().getOccupants()) {
             assertThat(occupant instanceof Pellet).isFalse();
         }
     }
 
+    /**
+     * Make sure the player is set to go to the west,
+     * and check whether the west is an empty square.
+     */
     @Given("^my Pacman is next to an empty square$")
     public void my_Pacman_is_next_to_an_empty_square() {
         square = player.getSquare();
@@ -120,12 +152,18 @@ public class MoveThePlayerSteps {
         assertThat(newSquare.getOccupants().isEmpty()).isTrue();
     }
 
+    /**
+     * Check if the score is still the same.
+     */
     @Then("^my points remain the same$")
     public void my_points_remain_the_same() {
-        //  check if the score is still the same
         assertThat(player.getScore()).isEqualTo(score);
     }
 
+    /**
+     * Make sure the player is set to go to the north,
+     * and check whether the north contains a wall.
+     */
     @Given("^my Pacman is next to a cell containing a wall$")
     public void my_Pacman_is_next_to_a_cell_containing_a_wall() {
         square = player.getSquare();
@@ -136,30 +174,36 @@ public class MoveThePlayerSteps {
         assertThat(newSquare.isAccessibleTo(player)).isFalse();
     }
 
+    /**
+     * Move the player in the direction it was set to move
+     * by a @Given method.
+     */
     @When("^I press an arrow key towards that cell$")
     public void i_press_an_arrow_key_towards_that_cell() {
-        // simulate a call to move(), using whereToGo, which is a direction defined by an @Given method
-        getGame().move(player,whereToGo);
+        getGame().move(player, whereToGo);
     }
 
+    /**
+     * Check to see if the player is still on the same square.
+     */
     @Then("^the move is not conducted$")
     public void the_move_is_not_conducted() {
-        //  Check to see if the player is still on the same square
         assertThat(player.getSquare()).isEqualTo(square);
     }
 
-    @When("^the user presses the \"([^\"]*)\" button$")
-    public void the_user_presses_the_button(String arg1) throws Throwable {
-        // Write code here that turns the phrase above into concrete actions
-        throw new PendingException();
-    }
-
+    /**
+     *
+     */
     @Then("^then all moves from ghosts and the player are suspended$")
     public void then_all_moves_from_ghosts_and_the_player_are_suspended() {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * Make sure the player is set to move to the south,
+     * and check whether the south contains a ghost.
+     */
     @Given("^my Pacman is next to a cell containing a ghost$")
     public void my_pacman_next_to_a_cell_containing_a_ghost() {
         // Get the player's square
@@ -172,27 +216,44 @@ public class MoveThePlayerSteps {
         assertThat(newSquare.getOccupants().get(0) instanceof Ghost).isTrue();
     }
 
+    /**
+     * Check that the player is not alive.
+     */
     @Then("^my Pacman dies$")
     public void my_pacman_dies() {
         assertThat(player.isAlive()).isFalse();
     }
 
+    /**
+     * Check if the game is no longer in progress.
+     */
     @Then("^the game is over$")
     public void the_game_is_over() {
         assertThat(getGame().isInProgress()).isFalse();
     }
 
+    /**
+     * Move the player to the only pellet of the map,
+     * and check whether there are no pellets left.
+     */
     @When("^I have eaten the last pellet$")
     public void i_have_eaten_my_last_pellet() {
         getGame().move(player, Direction.EAST);
         assertThat(getGame().getLevel().remainingPellets()).isEqualTo(0);
     }
 
+    /**
+     * Check whether the LevelObserver was notified once
+     * about a won level.
+     */
     @Then("^I win the game$")
     public void i_win_the_game() {
         assertThat(observer.getLevelsWon()).isEqualTo(1);
     }
 
+    /**
+     * Close the UI after all tests are finished.
+     */
     @After("@move_the_player")
     public void tearDownUI() {
         launcher.dispose();
