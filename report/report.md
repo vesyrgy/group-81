@@ -70,3 +70,17 @@ scenarios in the game.
 
 ##3.3.9
 
+#3.4 Understanding your tests
+
+##3.4.1
+If the test methods in a class start with duplicate initialization code this can be moved into
+a common initialization method with the @Before annotation, because this method will be executed
+before every single execution of a test method.
+Also, when a method needs to be tested using multiple values as input 
+(as in boundary testing for example),the test can be parameterized,
+which prevents writing same pieces of code around the input values.
+
+##3.4.2
+Using clean instances of the class under test, is necessary for independence among tests.
+The impact that one test has on another should be minimized to be sure that when a test fails,
+it only fails because of that test.
