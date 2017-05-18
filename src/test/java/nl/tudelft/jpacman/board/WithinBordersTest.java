@@ -52,7 +52,7 @@ public class WithinBordersTest {
             "0, -1, false",
             "0, 6, false",
             "2, 5, true"
-    })
+            })
     void testWithinBorders(int x, int y, boolean z) {
         assertThat(board.withinBorders(x, y)).isEqualTo(z);
     }
