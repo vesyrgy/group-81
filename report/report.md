@@ -55,7 +55,6 @@ For the `When` statement in S2.5 it is hard to realise exact timing of movements
 pacman has eaten all but one pellets, without colliding with a ghost.
 
 ##3.2.8
-
 All of the scenarios in User Story 3 pertain to ghosts, which are automatically moved around.
 Because of this, it is not possible to test the moves using `game.move()` as before. Moreover, 
 Ghost itself is an abstract class, which means we would have to test the individual ghosts, thereby 
@@ -65,28 +64,34 @@ different Ghosts not only move differently from each other, but also differently
 scenarios in the game. 
 
 
-
 #3.3 Boundary Testing 
 
 ##3.3.9 
-
 See 3.3.9_domain_matrix.png
 
-#3.4
+
+#3.4 Understanding your tests
 
 ##3.4.11
+If the test methods in a class start with duplicate initialization code this can be moved into
+a common initialization method with the @Before annotation, because this method will be executed
+before every single execution of a test method.
+Also, when a method needs to be tested using multiple values as input 
+(as in boundary testing for example),the test can be parameterized,
+which prevents writing same pieces of code around the input values.
 
 ##3.4.12
+Using clean instances of the class under test, is necessary for independence among tests.
+The impact that one test has on another should be minimized to be sure that when a test fails,
+it only fails because of that test.
 
 ##3.4.13
-
 The difference between `assertTrue(a == 1)` and `assertEquals(a, 1)` is that
 the `assertEquals` gives a comparison of the expected value with the actual value, 
 whereas `assertTrue` does not. So `assertEquals` is more useful, as it provides information
 that can be used debug a failing test. 
 
 ##3.4.14
-
 One could make the argument that it is not necessary to test the private methods of `MapParser` because 
 all of the end-to-end tests rely on a `Launcher` which makes use of `MapParser`. So, we would expect a 
 faulty `MapParser` to yield failing end-to-end tests. However, it is also the case that a faulty `MapParser`
@@ -97,12 +102,8 @@ fail an isolated test. In conclusion, it would probably be a good idea to test t
 
 ##3.5 
 
-There are a few Checkstyle warnings that remain.
+There one warnings that remains in IntelliJ.
 
 ###WithinBordersTest.java
-1)  Checkstyle complains that `public class WithinBordersTest` can be private. We left this public
+1)  IntelliJ complains that `public class WithinBordersTest` can be private. We left this public
     because the comment in `ParameterizedAssignment` specifically states that it needs to be public. 
-
-
-    
-
