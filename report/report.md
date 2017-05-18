@@ -67,6 +67,9 @@ scenarios in the game.
 #3.3 Boundary Testing 
 
 ##3.3.9 
+
+![alt text](3.3.9_domain_matrix.png)
+
 See 3.3.9_domain_matrix.png
 
 
