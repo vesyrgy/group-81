@@ -99,3 +99,11 @@ may make it difficult to debug the failing end-to-end tests, without having isol
 methods of `MapParser` itself. Furthermore, a passing test does necessarily not guarantee anything if the test
 itself has faults. So, a passing end-to-end test does not neceaarily guarantee that `MapParser` would not 
 fail an isolated test. In conclusion, it would probably be a good idea to test the private methods in isolation. 
+
+##3.5 
+
+There one warnings that remains in IntelliJ.
+
+###WithinBordersTest.java
+1)  IntelliJ complains that `public class WithinBordersTest` can be private. We left this public
+    because the comment in `ParameterizedAssignment` specifically states that it needs to be public. 

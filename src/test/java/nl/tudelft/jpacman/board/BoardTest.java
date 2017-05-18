@@ -8,12 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *  Test a basic board.
  *  @author Lars Ysla
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 class BoardTest {
 
     /**  Check that a simple 1x1 board is valid.
      */
     @Test
-    public void testBasicSquare() {
+    void testBasicSquare() {
         BasicSquare bs = new BasicSquare();
         Square[][] grid = {{ bs }};
         Board board = new Board(grid);
@@ -25,7 +26,7 @@ class BoardTest {
      *  that was used to create the board.
      */
     @Test
-    public void testSquareAt1() {
+    void testSquareAt1() {
         BasicSquare bs = new BasicSquare();
         Square[][] grid = {{ bs }};
         Board board = new Board(grid);
