@@ -97,17 +97,12 @@ fail an isolated test. In conclusion, it would probably be a good idea to test t
 
 ##3.5 
 
-There are a few Checkstyle/PMD issues that remain:
+There are a few Checkstyle warnings that remain.
 
 ###WithinBordersTest.java
 1)  Checkstyle complains that `public class WithinBordersTest` can be private. We left this public
     because the comment in `ParameterizedAssignment` specifically states that it needs to be public. 
-2)  Checkstyle treats the CSV input to the parameterized test as a single line and complains that 
-    this line contains too many characters. This cannot be helped and is clearly a case of Checkstyle being
-    absurd. 
-3)  
 
-###MoveThePlayerSteps.java
-1)  PMD complains that this class contains too many methods. 
+
     
 
