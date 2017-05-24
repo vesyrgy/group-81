@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,42 +62,36 @@ public class MapParserTest {
      */
     @Test
     public void testConstructor1() {
-        mpm = new MapParser(lf, bf);
+        MapParser mp = new MapParser(lf, bf);
         assertThat(levelCreator).isEqualTo(lf);
         assertThat(boardCreator).isEqualTo(bf);
     }
 
     /**
-     *  Test if the ParseMap method for nice-weather conditions.
+     *  Test the ParseMap method for nice-weather conditions.
      */
     @Test
     public void testParseMapFromCharArray() {
-        //@Spy
+        //  Spy on the method calls within MapParser object
         MapParser mp = Mockito.spy(new MapParser(lf,bf));
-        //MapParser mpm = mock(MapParser.class);
 
         //  Define a trivial map
         char [][] map = new char[1][1];
         map[0][0] = 'P';
-        List<Square> sp = new ArrayList<>();
-        sp.add(sq);
         Square[][] gr = new Square[1][1];
         gr[0][0] = sq;
 
-
         //  Return a mocked Board from the mocked BoardFactory
-        when(bf.createBoard(new Square[1][1])).thenReturn(bd);
+        when(bf.createBoard(any(gr.getClass()))).thenReturn(bd);
         when(bf.createGround()).thenReturn(sq);
         when(bf.createWall()).thenReturn(sq);
 
         //  Return a mocked Level from the mocked LevelFactory
-        when(lf.createLevel(bd, new ArrayList<>(), new ArrayList<>())).thenReturn(lev);
-
-        //  Prevent the addSquare method from trying to do stuff.
-        //doNothing().when(mpm).addSquare(new Square[1][1], new ArrayList<>(), new ArrayList<>(),0,0,'P');
+        when(lf.createLevel(any(Board.class), any(ArrayList.class), any(ArrayList.class))).thenReturn(lev);
 
         Level level = mp.parseMap(map);
-        Mockito.verify(mp).addSquare(gr, new ArrayList<>(), sp,0,0,'P');
+        //  Check that the addSquare method gets called
+        Mockito.verify(mp).addSquare(any(gr.getClass()), any(ArrayList.class), any(ArrayList.class),anyInt(),anyInt(),anyChar());
 
         assertThat(level).isEqualTo(lev);
     }
