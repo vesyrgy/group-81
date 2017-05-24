@@ -118,3 +118,16 @@ The continuous integration server confirmed that our builds worked properly in m
 tried to avoid successively failing builds on DevHub, as evidenced by the many green commits. We used Git
 very extensively. In general, we tried to make new branches for different exercises. This allowed us to divide 
 the work effectively and gives a very clear record of what was done. 
+
+#4.3 Testing Collisions
+
+##4.3.20
+|                        |   |   |   |   |   |   |   |   |
+|------------------------|---|---|---|---|---|---|---|---|
+| Player moves on pellet | T | T | F | - | - | - |   |   |
+| Player moves on ghost  | F | T | T | - | - | - |   |   |
+| Ghost moves on player  | - | - | - | T | - | - |   |   |
+| Ghost moves on pellet  | - | - | - | - | T | T |   |   |
+| Ghost moves on ghost   | - | - | - | - | F | T |   |   |
+|                        |   |   |   |   |   |   |   |   |
+|                        |   |   |   |   |   |   |   |   |
