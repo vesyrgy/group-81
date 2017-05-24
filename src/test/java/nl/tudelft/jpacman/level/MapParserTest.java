@@ -35,6 +35,8 @@ public class MapParserTest {
     List gl;
     Square sq;
     Pellet pel;
+    List<NPC> gh;
+    List<Square> sp;
 
     //List<> gh;
     @Mock private LevelFactory levelCreator;
@@ -55,6 +57,9 @@ public class MapParserTest {
         //gl = mock(List.class);
         sq = mock(Square.class);
         pel = mock(Pellet.class);
+
+        gh = new ArrayList<>();
+        sp = new ArrayList<>();
 
         //  Return mocked Squares from the mocked BoardFactory
         when(bf.createGround()).thenReturn(sq);
@@ -109,15 +114,28 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the AddSquare method for nice-weather conditions.
+     *  Test the AddSquare method when there is empty ground.
+     */
+    @Test
+    void testAddSquareGround() {
+        MapParser mp = Mockito.spy(new MapParser(lf, bf));
+        Square[][] gr = new Square[1][1];
+        gr[0][0] = null;
+
+        mp.addSquare(gr, gh, sp, 0,0,' ');
+        verify(bf).createGround();
+        assertThat(gr[0][0]).isEqualTo(sq);
+
+    }
+
+    /**
+     *  Test the AddSquare method when there is a Pellet.
      */
     @Test
     void testAddSquarePellet() {
         MapParser mp = Mockito.spy(new MapParser(lf, bf));
         Square[][] gr = new Square[1][1];
         gr[0][0] = null;
-        List<NPC> gh = new ArrayList<>();
-        List<Square> sp = new ArrayList<>();
 
         mp.addSquare(gr, gh, sp, 0,0,'.');
         verify(lf).createPellet();
@@ -125,6 +143,7 @@ public class MapParserTest {
         assertThat(gr[0][0]).isEqualTo(sq);
 
     }
+
 
     @Test
     void testMakeMakeGhostSquare() {}
