@@ -1,22 +1,31 @@
 package nl.tudelft.jpacman.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
+ * Use mockito mocking framework to unit test game.Game.
  * Created by basjenneboer on 5/24/17.
  */
 class GameUnitTest {
-    Game game;
-    Player mockPlayer;
-    Level mockLevel;
+    private Game game;
+    private Player mockPlayer;
+    private Level mockLevel;
 
+    private final int moreThanZero = 5;
+    private final int zero = 0;
+    /**
+     * Create a game by using mocks for player and level.
+     */
     @BeforeEach
     void initialize() {
         mockPlayer = mock(Player.class);
@@ -25,12 +34,14 @@ class GameUnitTest {
         game = new SinglePlayerGame(mockPlayer, mockLevel);
     }
 
+    /**
+     * Test whether game resumes the level,
+     * when there are pellets left and the player is alive.
+     */
     @Test
     void testPlayerAliveAndPelletsRemaining() {
-        boolean playerAlive = true;
-        int pelletsLeft = 5;
-        when(mockLevel.isAnyPlayerAlive()).thenReturn(playerAlive);
-        when(mockLevel.remainingPellets()).thenReturn(pelletsLeft);
+        when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
+        when(mockLevel.remainingPellets()).thenReturn(moreThanZero);
 
         game.start();
 
@@ -38,12 +49,14 @@ class GameUnitTest {
         verify(mockLevel).start();
     }
 
+    /**
+     * Test whether the level is no longer resumed,
+     * when there are no pellets left.
+     */
     @Test
     void testPlayerAliveAndNoPelletsRemaining() {
-        boolean playerAlive = true;
-        int pelletsLeft = 0;
-        when(mockLevel.isAnyPlayerAlive()).thenReturn(playerAlive);
-        when(mockLevel.remainingPellets()).thenReturn(pelletsLeft);
+        when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
+        when(mockLevel.remainingPellets()).thenReturn(zero);
 
         game.start();
 
@@ -51,12 +64,14 @@ class GameUnitTest {
         verify(mockLevel, never()).start();
     }
 
+    /**
+     * Test whether the level is no longer resumed,
+     * when the player is dead.
+     */
     @Test
     void testPlayerDeadAndPelletsRemaining() {
-        boolean playerAlive = false;
-        int pelletsLeft = 1;
-        when(mockLevel.isAnyPlayerAlive()).thenReturn(playerAlive);
-        when(mockLevel.remainingPellets()).thenReturn(pelletsLeft);
+        when(mockLevel.isAnyPlayerAlive()).thenReturn(false);
+        when(mockLevel.remainingPellets()).thenReturn(moreThanZero);
 
         game.start();
 
@@ -64,15 +79,18 @@ class GameUnitTest {
         verify(mockLevel, never()).start();
     }
 
+    /**
+     * Check that Game.start() returns directly,
+     * when it was already started before.
+     */
     @Test
     void testGameAlreadyInProgress() {
-        boolean playerAlive = true;
-        int pelletsLeft = 5;
-        when(mockLevel.isAnyPlayerAlive()).thenReturn(playerAlive);
-        when(mockLevel.remainingPellets()).thenReturn(pelletsLeft);
+        when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
+        when(mockLevel.remainingPellets()).thenReturn(moreThanZero);
         game.start();
 
         game.start();
+        //check that Level.start() is not invoked a second time
         verify(mockLevel, times(1)).start();
     }
 }
