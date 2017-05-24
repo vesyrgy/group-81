@@ -37,6 +37,8 @@ public class MapParserTest {
     Pellet pel;
     List<NPC> gh;
     List<Square> sp;
+    MapParser mp;
+    Square[][] gr;
 
     //List<> gh;
     @Mock private LevelFactory levelCreator;
@@ -72,6 +74,8 @@ public class MapParserTest {
         //  Do nothing when occupy() is called on a mocked Pellet
         doNothing().when(pel).occupy(any(Square.class));
 
+        mp = Mockito.spy(new MapParser(lf, bf));
+        gr = new Square[1][1];
 
     }
 
@@ -96,7 +100,6 @@ public class MapParserTest {
         //  Define a trivial map
         char [][] map = new char[1][1];
         map[0][0] = 'P';
-        Square[][] gr = new Square[1][1];
         gr[0][0] = sq;
 
         //  Return a mocked Board from the mocked BoardFactory
@@ -118,8 +121,6 @@ public class MapParserTest {
      */
     @Test
     void testAddSquareGround() {
-        MapParser mp = Mockito.spy(new MapParser(lf, bf));
-        Square[][] gr = new Square[1][1];
         gr[0][0] = null;
 
         mp.addSquare(gr, gh, sp, 0,0,' ');
@@ -129,12 +130,24 @@ public class MapParserTest {
     }
 
     /**
+     *  Test the AddSquare method when there is a wall.
+     */
+    @Test
+    void testAddSquareWall() {
+        gr[0][0] = null;
+
+        mp.addSquare(gr, gh, sp, 0,0,'#');
+        verify(bf).createWall();
+        assertThat(gr[0][0]).isEqualTo(sq);
+
+    }
+
+
+    /**
      *  Test the AddSquare method when there is a Pellet.
      */
     @Test
     void testAddSquarePellet() {
-        MapParser mp = Mockito.spy(new MapParser(lf, bf));
-        Square[][] gr = new Square[1][1];
         gr[0][0] = null;
 
         mp.addSquare(gr, gh, sp, 0,0,'.');
