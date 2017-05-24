@@ -34,6 +34,7 @@ public class MapParserTest {
     NPC npc;
     List gl;
     Square sq;
+    Pellet pel;
 
     //List<> gh;
     @Mock private LevelFactory levelCreator;
@@ -51,10 +52,22 @@ public class MapParserTest {
         lev = mock(Level.class);
         bd = mock(Board.class);
         npc = mock(NPC.class);
-        gl = mock(List.class);
+        //gl = mock(List.class);
         sq = mock(Square.class);
+        pel = mock(Pellet.class);
 
-        //when(lf.createLevel(bd, ))
+        //  Return mocked Squares from the mocked BoardFactory
+        when(bf.createGround()).thenReturn(sq);
+        when(bf.createWall()).thenReturn(sq);
+
+        //  Return a mocked Level from the mocked LevelFactory
+        when(lf.createLevel(any(Board.class), any(ArrayList.class), any(ArrayList.class))).thenReturn(lev);
+        when(lf.createPellet()).thenReturn(pel);
+
+        //  Do nothing when occupy() is called on a mocked Pellet
+        doNothing().when(pel).occupy(any(Square.class));
+
+
     }
 
     /**
@@ -83,11 +96,6 @@ public class MapParserTest {
 
         //  Return a mocked Board from the mocked BoardFactory
         when(bf.createBoard(any(gr.getClass()))).thenReturn(bd);
-        when(bf.createGround()).thenReturn(sq);
-        when(bf.createWall()).thenReturn(sq);
-
-        //  Return a mocked Level from the mocked LevelFactory
-        when(lf.createLevel(any(Board.class), any(ArrayList.class), any(ArrayList.class))).thenReturn(lev);
 
         Level level = mp.parseMap(map);
         //  Check that the addSquare method gets called
@@ -97,10 +105,26 @@ public class MapParserTest {
     }
 
     @Test
-    void testMakeGrid() {}
+    void testMakeGrid() {
+    }
 
+    /**
+     *  Test the AddSquare method for nice-weather conditions.
+     */
     @Test
-    void testAddSquare() {}
+    void testAddSquarePellet() {
+        MapParser mp = Mockito.spy(new MapParser(lf, bf));
+        Square[][] gr = new Square[1][1];
+        gr[0][0] = null;
+        List<NPC> gh = new ArrayList<>();
+        List<Square> sp = new ArrayList<>();
+
+        mp.addSquare(gr, gh, sp, 0,0,'.');
+        verify(lf).createPellet();
+        verify(pel).occupy(any(Square.class));
+        assertThat(gr[0][0]).isEqualTo(sq);
+
+    }
 
     @Test
     void testMakeMakeGhostSquare() {}
