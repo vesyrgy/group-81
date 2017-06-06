@@ -8,10 +8,7 @@ import nl.tudelft.jpacman.npc.NPC;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
+import org.mockito.*;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.lang.reflect.Array;
@@ -59,6 +56,7 @@ public class MapParserTest {
         //gl = mock(List.class);
         sq = mock(Square.class);
         pel = mock(Pellet.class);
+        MockitoAnnotations.initMocks(this);
 
         gh = new ArrayList<>();
         sp = new ArrayList<>();
@@ -84,9 +82,9 @@ public class MapParserTest {
      */
     @Test
     public void testConstructor1() {
-        MapParser mp = new MapParser(lf, bf);
-        assertThat(levelCreator).isEqualTo(lf);
-        assertThat(boardCreator).isEqualTo(bf);
+        mpm = new MapParser(lf, bf);
+        assertThat(levelCreator).isInstanceOf(lf.getClass());
+        assertThat(boardCreator).isInstanceOf(bf.getClass());
     }
 
     /**

@@ -14,4 +14,5 @@ target/
 *.iml
 report/3.3.9_domain_matrix.png
 report/report.pdf
-
+report/._report.pdf
+report/._3.3.9_domain_matrix.png
