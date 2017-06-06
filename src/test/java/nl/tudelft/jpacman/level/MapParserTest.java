@@ -182,6 +182,16 @@ public class MapParserTest {
 
         mp.addSquare(gr, gh, sp, 0,0,'P');
 
+        //  Check if the crreateGround() method has been called
+        verify(bf).createGround();
+
+        //  Check if the square has been assigned to the grid
+        assertThat(gr[0][0]).isEqualTo(sq);
+
+        //  Check to see if the player position has been added to the list
+        assertThat(sp.contains(sq));
+
+
 
     }
 
