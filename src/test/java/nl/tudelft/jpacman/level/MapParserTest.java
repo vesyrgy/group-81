@@ -1,18 +1,16 @@
 package nl.tudelft.jpacman.level;
 
-import com.sun.xml.internal.fastinfoset.util.CharArray;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
-import org.mockito.*;
-import org.mockito.junit.MockitoJUnitRunner;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,10 +35,8 @@ public class MapParserTest {
     MapParser mp;
     Square[][] gr;
 
-    //List<> gh;
     @Mock private LevelFactory levelCreator;
     @Mock private BoardFactory boardCreator;
-    //@Mock protected void addSquare();
     @InjectMocks MapParser mpm;
 
     /**
