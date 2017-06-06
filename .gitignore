@@ -12,3 +12,6 @@ target/
 # for intellij IDEA users
 .idea/
 *.iml
+report/3.3.9_domain_matrix.png
+report/report.pdf
+
