@@ -68,6 +68,12 @@ public class MapParserTest {
         //  Do nothing when occupy() is called on a mocked Pellet
         doNothing().when(pel).occupy(any(Square.class));
 
+        //  Return a mocked ghost from the mocked LevelFactory
+        when(lf.createGhost()).thenReturn(npc);
+
+        //  Return a mocked square from the mocked Ghost
+        when(npc.getSquare()).thenReturn(sq);
+
         mp = Mockito.spy(new MapParser(lf, bf));
         gr = new Square[1][1];
 
@@ -136,7 +142,6 @@ public class MapParserTest {
 
     }
 
-
     /**
      *  Test the AddSquare method when there is a Pellet.
      */
@@ -147,13 +152,43 @@ public class MapParserTest {
         mp.addSquare(gr, gh, sp, 0,0,'.');
         verify(lf).createPellet();
         verify(pel).occupy(any(Square.class));
+        assertThat(gr[0][0]).isEqualTo(npc.getSquare());
+
+    }
+
+    /**
+     *  Test the AddSquare method when there is a Ghost.
+     */
+    @Test
+    void testAddSquareGhost() {
+        gr[0][0] = null;
+
+        mp.addSquare(gr, gh, sp, 0,0,'G');
+
+        //  Check that a ghost was added to the list
+        assertThat(gh.contains(npc));
+        //  Check if the the occupy() method has been called on the ghost
+        verify(npc).occupy(gr[0][0]);
+
         assertThat(gr[0][0]).isEqualTo(sq);
+    }
+
+    /**
+     *  Test the AddSquare method when there is a Player.
+     */
+    @Test
+    void testAddSquarePlayer() {
+        gr[0][0] = null;
+
+        mp.addSquare(gr, gh, sp, 0,0,'P');
+
 
     }
 
 
     @Test
-    void testMakeMakeGhostSquare() {}
+    void testMakeGhostSquare() {
+    }
 
     @Test
     void testParseMapFromStringList() {}
