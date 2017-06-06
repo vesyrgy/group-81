@@ -56,6 +56,7 @@ public class PlayerCollisionsTest {
         map.collide(playerMock, pelletMock);
 
         verify(playerMock).addPoints(anyInt());
+        verify(playerMock, times(0)).setAlive(false);
         verify(pelletMock).leaveSquare();
     }
 
@@ -71,5 +72,49 @@ public class PlayerCollisionsTest {
         map.collide(ghostMock, pelletMock);
 
         verify(pelletMock, times(0)).leaveSquare();
+        verify(ghostMock, times(0)).leaveSquare();
+    }
+
+    @Test
+    void pelletMovesOnGhost() {
+        map.collide(pelletMock, ghostMock);
+
+        verify(pelletMock, times(0)).leaveSquare();
+        verify(ghostMock, times(0)).leaveSquare();
+    }
+
+    @Test
+    void pelletMovesOnPlayer() {
+        map.collide(pelletMock, playerMock);
+
+        verify(playerMock).addPoints(anyInt());
+        verify(playerMock, times(0)).setAlive(false);
+        verify(pelletMock).leaveSquare();
+    }
+
+    @Test
+    void ghostMovesOnGhost() {
+        Ghost otherGhostMock = mock(Ghost.class);
+
+        map.collide(ghostMock, otherGhostMock);
+
+        verify(ghostMock, times(0)).leaveSquare();
+        verify(otherGhostMock, times(0)).leaveSquare();
+    }
+
+    @Test
+    void playerMovesOnNull() {
+        map.collide(playerMock, null);
+
+        verify(playerMock, times(0)).addPoints(anyInt());
+        verify(playerMock, times(0)).setAlive(false);
+    }
+
+    @Test
+    void nullMovesOnPlayer() {
+        map.collide(null, playerMock);
+
+        verify(playerMock, times(0)).addPoints(anyInt());
+        verify(playerMock, times(0)).setAlive(false);
     }
 }
