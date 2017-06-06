@@ -122,12 +122,14 @@ the work effectively and gives a very clear record of what was done.
 #4.3 Testing Collisions
 
 ##4.3.20
-|                        |   |   |   |   |   |   |   |   |
-|------------------------|---|---|---|---|---|---|---|---|
-| Player moves on pellet | T | T | F | - | - | - |   |   |
-| Player moves on ghost  | F | T | T | - | - | - |   |   |
-| Ghost moves on player  | - | - | - | T | - | - |   |   |
-| Ghost moves on pellet  | - | - | - | - | T | T |   |   |
-| Ghost moves on ghost   | - | - | - | - | F | T |   |   |
-|                        |   |   |   |   |   |   |   |   |
-|                        |   |   |   |   |   |   |   |   |
+
+|         | r1                  | r2           | r3                  | r4          | r5             |
+|---------|---------------------|--------------|---------------------|-------------|----------------|
+| player  | collider            | collider     | collider            | collidee    |                |
+| ghost   | collidee            | collidee     |                     | collider    | collider       |
+| pellet  | collidee            |              | collidee            |             | collidee       |
+|         |                     |              |                     |             |                |
+| outcome | player moves        | player moves | player moves        | ghost moves | ghost moves    |
+|         | player earns points | player dies  | player earns points | player dies | pellet remains |
+|         | pellet disappears   |              | pellet disappears   |             |                |
+|         | player dies         |              |                     |             |                |
