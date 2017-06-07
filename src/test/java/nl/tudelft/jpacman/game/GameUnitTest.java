@@ -16,6 +16,7 @@ import org.junit.jupiter.api.Test;
  * Use mockito mocking framework to unit test game.Game.
  * Created by basjenneboer on 5/24/17.
  */
+@SuppressWarnings("PMD.TooManyStaticImports") //these are really needed
 class GameUnitTest {
     private Game game;
     private Player mockPlayer;
