@@ -118,3 +118,24 @@ The continuous integration server confirmed that our builds worked properly in m
 tried to avoid successively failing builds on DevHub, as evidenced by the many green commits. We used Git
 very extensively. In general, we tried to make new branches for different exercises. This allowed us to divide 
 the work effectively and gives a very clear record of what was done. 
+
+##4.4
+
+###4.4.25
+It should not be the goal to achieve 100% test coverage, because this is very easily achieved by writing tests that
+are not meaningful.
+
+An advantage of code coverage can be the ability to spot a decrease in code coverage of a pull request.
+
+A disadvantage is that high coverage can provide a false sense of stability. 100% coverage for example does not imply
+an absence of faults.
+
+###4.4.27
+A test that needs to communicate with infrastructure dependencies like a database or http server will slow
+the entire test suite dramatically. To mitigate this issue, you can mock these depencies and still test the interaction.
+
+###4.4.29
+Mocking should mostly be done during unit testing, because it provides isolation of the class under test.
+Mocking can be done during integration testing for some dependencies that are not directly under test.
+Mocking should not be done during system testing, because the whole system should be under test and 
+when using mocks, you are partly testing your mocks instead of the real implementation.
