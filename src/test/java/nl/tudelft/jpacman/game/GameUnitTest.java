@@ -21,8 +21,8 @@ class GameUnitTest {
     private Player mockPlayer;
     private Level mockLevel;
 
-    private final int moreThanZero = 5;
-    private final int zero = 0;
+    private final static int MORE_THAN_ZERO = 5;
+    private final static int ZERO = 0;
     /**
      * Create a game by using mocks for player and level.
      */
@@ -41,7 +41,7 @@ class GameUnitTest {
     @Test
     void testPlayerAliveAndPelletsRemaining() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
-        when(mockLevel.remainingPellets()).thenReturn(moreThanZero);
+        when(mockLevel.remainingPellets()).thenReturn(MORE_THAN_ZERO);
 
         game.start();
 
@@ -56,7 +56,7 @@ class GameUnitTest {
     @Test
     void testPlayerAliveAndNoPelletsRemaining() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
-        when(mockLevel.remainingPellets()).thenReturn(zero);
+        when(mockLevel.remainingPellets()).thenReturn(ZERO);
 
         game.start();
 
@@ -71,7 +71,7 @@ class GameUnitTest {
     @Test
     void testPlayerDeadAndPelletsRemaining() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(false);
-        when(mockLevel.remainingPellets()).thenReturn(moreThanZero);
+        when(mockLevel.remainingPellets()).thenReturn(MORE_THAN_ZERO);
 
         game.start();
 
@@ -86,7 +86,7 @@ class GameUnitTest {
     @Test
     void testGameAlreadyInProgress() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
-        when(mockLevel.remainingPellets()).thenReturn(moreThanZero);
+        when(mockLevel.remainingPellets()).thenReturn(MORE_THAN_ZERO);
         game.start();
 
         game.start();
