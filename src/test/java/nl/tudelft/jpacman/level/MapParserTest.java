@@ -12,9 +12,9 @@ import org.junit.rules.ExpectedException;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.junit.Rule;
+import org.mockito.Mockito;
+
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -30,39 +30,31 @@ import static org.mockito.Mockito.*;
  * @author Lars Ysla
  */
 //@RunWith(MockitoJUnitRunner.class)
-public class MapParserTest {
-    LevelFactory lf;
-    BoardFactory bf;
-    Level lev;
-    Board bd;
-    NPC npc;
-    List gl;
-    Square sq;
-    Pellet pel;
-    List<NPC> gh;
-    List<Square> sp;
-    MapParser mp;
-    Square[][] gr;
+class MapParserTest {
+    private LevelFactory lf = mock(LevelFactory.class);
+    private BoardFactory bf = mock(BoardFactory.class);
+    private Level lev = mock(Level.class);
+    private NPC npc = mock(NPC.class);
+    private Square sq = mock(Square.class);
+    private Board bd = mock(Board.class);
+    private Pellet pel = mock(Pellet.class);
+    private List<NPC> gh;
+    private List<Square> sp;
+    private MapParser mp;
+    private Square[][] gr;
 
     @Mock private LevelFactory levelCreator;
     @Mock private BoardFactory boardCreator;
-    @InjectMocks MapParser mpm;
+    @InjectMocks private MapParser mpm;
 
     @Rule public ExpectedException exception = ExpectedException.none();
 
     /**
      *  Set up the mock objects before each test.
      */
+    @SuppressWarnings({"unchecked", "checkstyle:linelength"})
     @BeforeEach
-    public void setupMocks() {
-        lf = mock(LevelFactory.class);
-        bf = mock(BoardFactory.class);
-        lev = mock(Level.class);
-        bd = mock(Board.class);
-        npc = mock(NPC.class);
-        //gl = mock(List.class);
-        sq = mock(Square.class);
-        pel = mock(Pellet.class);
+    void setupMocks() {
         MockitoAnnotations.initMocks(this);
 
         gh = new ArrayList<>();
@@ -73,7 +65,7 @@ public class MapParserTest {
         when(bf.createWall()).thenReturn(sq);
 
         //  Return a mocked Level from the mocked LevelFactory
-        when(lf.createLevel(any(Board.class), any(ArrayList.class), any(ArrayList.class))).thenReturn(lev);
+        when(lf.createLevel(any(Board.class), any(gh.getClass()), any(sp.getClass()))).thenReturn(lev);
         when(lf.createPellet()).thenReturn(pel);
 
         //  Do nothing when occupy() is called on a mocked Pellet
@@ -89,17 +81,18 @@ public class MapParserTest {
         gr = new Square[1][1];
         gr[0][0] = sq;
 
+        mpm = spy(new MapParser(lf, bf));
+
         //  Return a mocked Board from the mocked BoardFactory
         when(bf.createBoard(any(gr.getClass()))).thenReturn(bd);
-
     }
 
     /**
      *  Test the MapParser constructor (nice weather).
      */
     @Test
-    public void testConstructor1() {
-        mpm = new MapParser(lf, bf);
+    void testConstructor1() {
+        mpm = spy(new MapParser(lf, bf));
         assertThat(levelCreator).isInstanceOf(lf.getClass());
         assertThat(boardCreator).isInstanceOf(bf.getClass());
     }
@@ -107,15 +100,20 @@ public class MapParserTest {
     /**
      *  Test the parseMap method for a character array (nice weather).
      */
+    @SuppressWarnings({"unchecked", "checkstyle:linelength"})
     @Test
-    public void testParseMapFromCharArray() {
+
+    void testParseMapFromCharArray() {
+        //  Spy on the method calls within MapParser object
+        MapParser mp = Mockito.spy(new MapParser(lf, bf));
+
         //  Define a trivial map
         char [][] map = new char[1][1];
         map[0][0] = 'P';
 
         Level level = mp.parseMap(map);
         //  Check that the addSquare method gets called
-        Mockito.verify(mp).addSquare(any(gr.getClass()), any(ArrayList.class), any(ArrayList.class),anyInt(),anyInt(),anyChar());
+        Mockito.verify(mp).addSquare(any(gr.getClass()), any(gh.getClass()), any(sp.getClass()), anyInt(), anyInt(), anyChar());
 
         assertThat(level).isEqualTo(lev);
     }
@@ -164,7 +162,7 @@ public class MapParserTest {
     void testAddSquareGround() {
         gr[0][0] = null;
 
-        mp.addSquare(gr, gh, sp, 0,0,' ');
+        mp.addSquare(gr, gh, sp, 0, 0, ' ');
         verify(bf).createGround();
         assertThat(gr[0][0]).isEqualTo(sq);
 
@@ -177,7 +175,7 @@ public class MapParserTest {
     void testAddSquareWall() {
         gr[0][0] = null;
 
-        mp.addSquare(gr, gh, sp, 0,0,'#');
+        mp.addSquare(gr, gh, sp, 0, 0, '#');
         verify(bf).createWall();
         assertThat(gr[0][0]).isEqualTo(sq);
 
@@ -190,7 +188,7 @@ public class MapParserTest {
     void testAddSquarePellet() {
         gr[0][0] = null;
 
-        mp.addSquare(gr, gh, sp, 0,0,'.');
+        mp.addSquare(gr, gh, sp, 0, 0, '.');
         verify(lf).createPellet();
         verify(pel).occupy(any(Square.class));
         assertThat(gr[0][0]).isEqualTo(npc.getSquare());
@@ -204,10 +202,10 @@ public class MapParserTest {
     void testAddSquareGhost() {
         gr[0][0] = null;
 
-        mp.addSquare(gr, gh, sp, 0,0,'G');
+        mp.addSquare(gr, gh, sp, 0, 0, 'G');
 
         //  Check that a ghost was added to the list
-        assertThat(gh.contains(npc));
+        assertThat(gh).contains(npc);
         //  Check if the the occupy() method has been called on the ghost
         verify(npc).occupy(gr[0][0]);
 
@@ -221,7 +219,7 @@ public class MapParserTest {
     void testAddSquarePlayer() {
         gr[0][0] = null;
 
-        mp.addSquare(gr, gh, sp, 0,0,'P');
+        mp.addSquare(gr, gh, sp, 0, 0, 'P');
 
         //  Check if the crreateGround() method has been called
         verify(bf).createGround();
@@ -230,7 +228,7 @@ public class MapParserTest {
         assertThat(gr[0][0]).isEqualTo(sq);
 
         //  Check to see if the player position has been added to the list
-        assertThat(sp.contains(sq));
+        assertThat(sp).contains(sq);
 
     }
 
@@ -245,7 +243,6 @@ public class MapParserTest {
 
         });
         assertEquals("Invalid character at 0,0: Q",ex.getMessage());
-
     }
 
     /**
@@ -255,7 +252,7 @@ public class MapParserTest {
     void testParseMapFromStringList() {
         //  Define a trivial String List
         List<String> sl = new ArrayList<>(1);
-        sl.add(0,"P");
+        sl.add(0, "P");
 
         Level level = mp.parseMap(sl);
 
@@ -367,10 +364,11 @@ public class MapParserTest {
      * Test the parseMap method when the input is an Input Stream (nice weather).
      * @throws IOException
      */
+    @SuppressWarnings("unchecked")
     @Test
     void testParseMapFromInputStream() throws IOException {
         //  Define a trivial InputStream
-        InputStream is = new ByteArrayInputStream( "P".getBytes());
+        InputStream is = new ByteArrayInputStream("P".getBytes("UTF8"));
 
         Level level = mp.parseMap(is);
 
