@@ -151,3 +151,43 @@ This however, is not a functionality that is specified by the requirements and c
 
 Also coverage on CollisionInteractionMap and DefaultPlayerInteractionMap have increased drastically,
 only by applying the PlayerCollisions testsuite on them too.
+
+#4.4 Complex Tests
+
+###4.4.25
+It should not be the goal to achieve 100% test coverage, because this is very easily achieved by writing tests that
+are not meaningful.
+
+An advantage of code coverage can be the ability to spot a decrease in code coverage of a pull request.
+
+A disadvantage is that high coverage can provide a false sense of stability. 100% coverage for example does not imply
+an absence of faults.
+
+##4.4.26
+
+`LauncherSmokeTest.smokeTest()` can become flakey as a result of an assumption that the call to `Thread.sleep(500L)`
+will be sufficient to bring the monsters within 20 steps of the player. Since the movement of the monsters depends on 
+a random number generator, the movements of the ghosts are not explicitly guaranteed to meet this criterion. So, the 
+call to `assertThat(player.isAlive()).isFalse()` can sometimes yield a failing test. The paper by Luo et al. identifies 
+the three main causes of flakey tests as (1) "ASYNC WAIT": asynchronous calls which do not properly wait for the resource being 
+called, (2) concurrency and (3) test order dependency. Each type of flakey test has its own fix. For example, for ASYNC WAIT, 
+a common fix prescibed by Luo et al. is to enforce the blocking of a given thread through `waitFor`. But, the overarching 
+theme of these fixes is that we need to enforce determinism in our tests.
+
+###4.4.27
+A test that needs to communicate with infrastructure dependencies like a database or http server will slow
+the entire test suite dramatically. To mitigate this issue, you can mock these depencies and still test the interaction.
+
+###4.4.28
+
+One disadvantage of using mocks is that one could make the mistake of testing a mock by accident without realizing
+it. When using the more advanced features of certain mocking frameworks there is a risk of misunderstanding what 
+exactly that code is doing, which may result in green tests which don't actually test the software that is supposed to be tested. 
+Furthermore, the overextensive use of mocking can lead to slower tests and possible problems that result from the interactions
+between the mocks themselves. 
+
+###4.4.29
+Mocking should mostly be done during unit testing, because it provides isolation of the class under test.
+Mocking can be done during integration testing for some dependencies that are not directly under test.
+Mocking should not be done during system testing, because the whole system should be under test and 
+when using mocks, you are partly testing your mocks instead of the real implementation.
