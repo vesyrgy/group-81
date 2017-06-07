@@ -1,23 +1,36 @@
 package nl.tudelft.jpacman.level;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
-
 import nl.tudelft.jpacman.npc.ghost.Ghost;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 /**
+ * Class that tests whether all possible collisions
+ * give the required result.
  * Created by basjenneboer on 6/7/17.
  */
-public abstract class CollisionMapTest {
-    CollisionMap map;
-    Player playerMock;
-    Pellet pelletMock;
-    Ghost ghostMock;
+abstract class CollisionMapTest {
+    private CollisionMap map;
+    private Player playerMock;
+    private Pellet pelletMock;
+    private Ghost ghostMock;
 
+    /**
+     * Every implementation of CollisionMapTest should
+     * provide an instance of their implementation of CollisionMap.
+     * @return Instance of CollisionMap
+     */
     abstract CollisionMap createMap();
 
+    /**
+     * Acquire a CollisionMap instance and mock all
+     * collision participants.
+     */
     @BeforeEach
     void setup() {
         map = createMap();
@@ -25,7 +38,10 @@ public abstract class CollisionMapTest {
         pelletMock = mock(Pellet.class);
         ghostMock = mock(Ghost.class);
     }
-
+    /**
+     * When a player moves on a ghost, the player
+     * should be dead.
+     */
     @Test
     void playerMovesOnGhost() {
         map.collide(playerMock, ghostMock);
@@ -33,6 +49,11 @@ public abstract class CollisionMapTest {
         verify(playerMock).setAlive(false);
     }
 
+    /**
+     * When a player moves on a pellet, the player
+     * should earn points, should still be alive and
+     * the pellet should disappear.
+     */
     @Test
     void playerMovesOnPellet() {
         map.collide(playerMock, pelletMock);
@@ -42,6 +63,10 @@ public abstract class CollisionMapTest {
         verify(pelletMock).leaveSquare();
     }
 
+    /**
+     * When a ghost moves on a player, the player
+     * should be dead.
+     */
     @Test
     void ghostMovesOnPlayer() {
         map.collide(ghostMock, playerMock);
@@ -49,6 +74,10 @@ public abstract class CollisionMapTest {
         verify(playerMock).setAlive(false);
     }
 
+    /**
+     * When a ghost moves on a pellet, the ghost
+     * and pellet should remain on the board.
+     */
     @Test
     void ghostMovesOnPellet() {
         map.collide(ghostMock, pelletMock);
