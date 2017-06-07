@@ -1,23 +1,34 @@
 package nl.tudelft.jpacman.level;
 
+import jdk.internal.util.xml.impl.Input;
+import nl.tudelft.jpacman.PacmanConfigurationException;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
 import nl.tudelft.jpacman.npc.NPC;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.rules.ExpectedException;
+//import org.junit.Assert.*
+import org.junit.rules.*;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.junit.Rule;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+
+import org.junit.jupiter.api.Assertions.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 /**
@@ -41,6 +52,8 @@ public class MapParserTest {
     @Mock private LevelFactory levelCreator;
     @Mock private BoardFactory boardCreator;
     @InjectMocks MapParser mpm;
+
+    @Rule public ExpectedException exception = ExpectedException.none();
 
     /**
      *  Set up the mock objects before each test.
@@ -87,7 +100,7 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the MapParser constructor.
+     *  Test the MapParser constructor (nice weather).
      */
     @Test
     public void testConstructor1() {
@@ -97,13 +110,10 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the parseMap method for a character array.
+     *  Test the parseMap method for a character array (nice weather).
      */
     @Test
     public void testParseMapFromCharArray() {
-        //  Spy on the method calls within MapParser object
-        MapParser mp = Mockito.spy(new MapParser(lf,bf));
-
         //  Define a trivial map
         char [][] map = new char[1][1];
         map[0][0] = 'P';
@@ -115,9 +125,45 @@ public class MapParserTest {
         assertThat(level).isEqualTo(lev);
     }
 
+    /**
+     *  Test the parseMap method for a character array (bad weather):
+     *  Bad character
+     */
+    @Test
+    public void testParseMapFromCharArrayBadChar() {
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            //  Define a trivial map
+            char [][] map = new char[1][1];
+            map[0][0] = 'Q';
+
+            Level level = mp.parseMap(map);
+
+        });
+        assertEquals("Invalid character at 0,0: Q",ex.getMessage());
+
+    }
 
     /**
-     *  Test the AddSquare method when there is empty ground.
+     *  Test the parseMap method for a character array (bad weather):
+     *  Empty Map
+     */
+    @Test
+    public void testParseMapFromCharArrayNull() {
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            //  Define a trivial map
+            char [][] map = new char[1][1];
+
+            Level level = mp.parseMap(map);
+
+        });
+        assertEquals("Invalid character at 0,0: \u0000", ex.getMessage());
+    }
+
+
+    /**
+     *  Test the AddSquare method when there is empty ground (nice weather).
      */
     @Test
     void testAddSquareGround() {
@@ -130,7 +176,7 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the AddSquare method when there is a wall.
+     *  Test the AddSquare method when there is a wall (nice weather).
      */
     @Test
     void testAddSquareWall() {
@@ -143,7 +189,7 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the AddSquare method when there is a Pellet.
+     *  Test the AddSquare method when there is a Pellet (nice weather).
      */
     @Test
     void testAddSquarePellet() {
@@ -157,7 +203,7 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the AddSquare method when there is a Ghost.
+     *  Test the AddSquare method when there is a Ghost (nice weather).
      */
     @Test
     void testAddSquareGhost() {
@@ -174,7 +220,7 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the AddSquare method when there is a Player.
+     *  Test the AddSquare method when there is a Player (nice weather).
      */
     @Test
     void testAddSquarePlayer() {
@@ -194,13 +240,24 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the parseMap method when the input is a String list
+     *  Test the addSquare method for invalid character (bad weather)
+     */
+    @Test
+    void testaddSquareInvalidChar() {
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            mp.addSquare(gr, gh, sp, 0, 0, 'Q');
+
+        });
+        assertEquals("Invalid character at 0,0: Q",ex.getMessage());
+
+    }
+
+    /**
+     *  Test the parseMap method when the input is a String list (nice weather).
      */
     @Test
     void testParseMapFromStringList() {
-        //  Spy on the method calls within MapParser object
-        MapParser mp = Mockito.spy(new MapParser(lf,bf));
-
         //  Define a trivial String List
         List<String> sl = new ArrayList<>(1);
         sl.add(0,"P");
@@ -216,14 +273,107 @@ public class MapParserTest {
     }
 
     /**
-     * Test the parseMap method when the input is an Input Stream.
+     *  Test the parseMap method when the input is a String list (bad weather):
+     *  Invalid character
+     */
+    @Test
+    void testParseMapFromStringListInvalid() {
+        //  Define a trivial String List
+        List<String> sl = new ArrayList<>(1);
+        sl.add(0,"Q");
+
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            Level level = mp.parseMap(sl);
+
+        });
+        assertEquals("Invalid character at 0,0: Q",ex.getMessage());
+
+    }
+
+    /**
+     *  Test the parseMap method when the input is a String list (bad weather):
+     *  List is Null
+     */
+    @Test
+    void testParseMapFromStringListNull() {
+        //  Define a trivial String List
+        List<String> sl = null;
+
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            Level level = mp.parseMap(sl);
+
+        });
+        assertEquals("Input text cannot be null.",ex.getMessage());
+
+    }
+
+    /**
+     *  Test the parseMap method when the input is a String list (bad weather):
+     *  Empty list
+     */
+    @Test
+    void testParseMapFromStringListEmpty() {
+        //  Define a trivial String List
+        List<String> sl = new ArrayList<>(10);
+
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            Level level = mp.parseMap(sl);
+
+        });
+        assertEquals("Input text must consist of at least 1 row.",ex.getMessage());
+
+    }
+
+    /**
+     *  Test the parseMap method when the input is a String list (bad weather):
+     *  Empty Lines
+     */
+    @Test
+    void testParseMapFromStringListEmptyLines() {
+        //  Define a trivial String List
+        List<String> sl = new ArrayList<>(10);
+        sl.add("");
+
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            Level level = mp.parseMap(sl);
+
+        });
+        assertEquals("Input text lines cannot be empty.",ex.getMessage());
+
+    }
+
+    /**
+     *  Test the parseMap method when the input is a String list (bad weather):
+     *  Lines With unequal width
+     */
+    @Test
+    void testParseMapFromStringListUnequalLineWidth() {
+        //  Define a trivial String List
+        List<String> sl = new ArrayList<>(10);
+        sl.add(" ");
+        sl.add("  ");
+
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+            Level level = mp.parseMap(sl);
+
+        });
+        assertEquals("Input text lines are not of equal width.",ex.getMessage());
+
+    }
+
+
+
+    /**
+     * Test the parseMap method when the input is an Input Stream (nice weather).
      * @throws IOException
      */
     @Test
     void testParseMapFromInputStream() throws IOException {
-        //  Spy on the method calls within MapParser object
-        MapParser mp = Mockito.spy(new MapParser(lf,bf));
-
         //  Define a trivial InputStream
         InputStream is = new ByteArrayInputStream( "P".getBytes());
 
@@ -238,14 +388,29 @@ public class MapParserTest {
     }
 
     /**
-     * Test the parseMap() method when the input is a filename.
+     *  Test the parseMap method when the input is an InputStream (bad weather)
+     */
+    @Test
+    void testParseMapFromInputStreamException() {
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+
+            //  Mock the InputStream so that it throws an exception
+            InputStream mis = mock(InputStream.class);
+            when(mis.read()).thenThrow(new IOException());
+
+            Level level = mp.parseMap(mis);
+
+        });
+        assertThat(ex.getMessage()).contains("Input text must consist of at least 1 row.");
+    }
+
+    /**
+     * Test the parseMap() method when the input is a filename (nice weather).
      * @throws IOException
      */
     @Test
     void testParseMapFromString() throws IOException {
-        //  Spy on the method calls within MapParser object
-        MapParser mp = Mockito.spy(new MapParser(lf,bf));
-
         //  Define a trivial String
         String s = "/simplemap.txt";
 
@@ -257,6 +422,22 @@ public class MapParserTest {
         //  check that the level that has been created is the mocked level
         assertThat(level).isEqualTo(lev);
 
+    }
+
+    /**
+     *  Test the parseMap method when the input is an a filename (bad weather)
+     */
+    @Test
+    void testParseMapFromStringException() {
+        String s = "nonexistent.txt";
+
+        //  Check to see that the right exception is thrown
+        Throwable ex = Assertions.assertThrows(PacmanConfigurationException.class, () -> {
+
+            Level level = mp.parseMap(s);
+
+        });
+        assertThat(ex.getMessage()).contains("Could not get resource for: ");
     }
 
 
