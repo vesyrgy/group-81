@@ -29,6 +29,7 @@ import static org.mockito.Mockito.*;
  * @author Lars Ysla
  */
 //@RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings({"PMD.TestClassWithoutTestCases", "PMD.TooManyMethods"})
 class MapParserTest {
     private LevelFactory lf = mock(LevelFactory.class);
     private BoardFactory bf = mock(BoardFactory.class);
@@ -39,12 +40,11 @@ class MapParserTest {
     private Pellet pel = mock(Pellet.class);
     private List<NPC> gh = new ArrayList<>();
     private List<Square> sp = new ArrayList<>();
-    private MapParser mp;
     private Square[][] gr;
 
     @Mock private LevelFactory levelCreator;
     @Mock private BoardFactory boardCreator;
-    @InjectMocks private MapParser mpm;
+    @InjectMocks private MapParser mp;
 
     /**
      *  Set up the mock objects before each test.
@@ -71,11 +71,9 @@ class MapParserTest {
         //  Return a mocked square from the mocked Ghost
         when(npc.getSquare()).thenReturn(sq);
 
-        mp = Mockito.spy(new MapParser(lf, bf));
+        mp = spy(new MapParser(lf, bf));
         gr = new Square[1][1];
         gr[0][0] = sq;
-
-        mpm = spy(new MapParser(lf, bf));
 
         //  Return a mocked Board from the mocked BoardFactory
         when(bf.createBoard(any(gr.getClass()))).thenReturn(bd);
@@ -86,7 +84,7 @@ class MapParserTest {
      */
     @Test
     void testConstructor1() {
-        mpm = spy(new MapParser(lf, bf));
+        mp = spy(new MapParser(lf, bf));
         assertThat(levelCreator).isInstanceOf(lf.getClass());
         assertThat(boardCreator).isInstanceOf(bf.getClass());
     }
@@ -99,7 +97,7 @@ class MapParserTest {
 
     void testParseMapFromCharArray() {
         //  Spy on the method calls within MapParser object
-        MapParser mp = Mockito.spy(new MapParser(lf, bf));
+        MapParser mp = spy(new MapParser(lf, bf));
 
         //  Define a trivial map
         char [][] map = new char[1][1];
@@ -107,7 +105,7 @@ class MapParserTest {
 
         Level level = mp.parseMap(map);
         //  Check that the addSquare method gets called
-        Mockito.verify(mp).addSquare(any(gr.getClass()), any(gh.getClass()), any(sp.getClass()), anyInt(), anyInt(), anyChar());
+        verify(mp).addSquare(any(gr.getClass()), any(gh.getClass()), any(sp.getClass()), anyInt(), anyInt(), anyChar());
 
         assertThat(level).isEqualTo(lev);
     }
@@ -251,7 +249,7 @@ class MapParserTest {
         Level level = mp.parseMap(sl);
 
         //  check that the method calls the character array version of the method
-        Mockito.verify(mp).parseMap(any(char[][].class));
+        verify(mp).parseMap(any(char[][].class));
 
         //  check that the level that has been created is the mocked level
         assertThat(level).isEqualTo(lev);
@@ -339,7 +337,7 @@ class MapParserTest {
     @Test
     void testParseMapFromStringListUnequalLineWidth() {
         //  Define a trivial String List
-        List<String> sl = new ArrayList<>(10);
+        List<String> sl = new ArrayList<>();
         sl.add(" ");
         sl.add("  ");
 
@@ -356,7 +354,7 @@ class MapParserTest {
 
     /**
      * Test the parseMap method when the input is an Input Stream (nice weather).
-     * @throws IOException
+     * @throws IOException if the nice weather behavior fails.
      */
     @SuppressWarnings("unchecked")
     @Test
@@ -367,7 +365,7 @@ class MapParserTest {
         Level level = mp.parseMap(is);
 
         //  check that the method calls the String List version of the method
-        Mockito.verify(mp).parseMap(any(List.class));
+        verify(mp).parseMap(any(List.class));
 
         //  check that the level that has been created is the mocked level
         assertThat(level).isEqualTo(lev);
@@ -394,7 +392,7 @@ class MapParserTest {
 
     /**
      * Test the parseMap() method when the input is a filename (nice weather).
-     * @throws IOException
+     * @throws IOException if the nice weather behavior fails.
      */
     @Test
     void testParseMapFromString() throws IOException {
@@ -404,7 +402,7 @@ class MapParserTest {
         Level level = mp.parseMap(s);
 
         //  check that the method calls the IOStream version of the parseMap method
-        Mockito.verify(mp).parseMap(any(InputStream.class));
+        verify(mp).parseMap(any(InputStream.class));
 
         //  check that the level that has been created is the mocked level
         assertThat(level).isEqualTo(lev);
