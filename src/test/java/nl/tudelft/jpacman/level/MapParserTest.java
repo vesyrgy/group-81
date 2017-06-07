@@ -1,7 +1,5 @@
 package nl.tudelft.jpacman.level;
 
-import com.sun.org.apache.xerces.internal.xs.StringList;
-import com.sun.xml.internal.fastinfoset.util.CharArray;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
