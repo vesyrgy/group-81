@@ -1,5 +1,7 @@
 package nl.tudelft.jpacman.level;
 
+import com.sun.org.apache.xerces.internal.xs.StringList;
+import com.sun.xml.internal.fastinfoset.util.CharArray;
 import nl.tudelft.jpacman.board.Board;
 import nl.tudelft.jpacman.board.BoardFactory;
 import nl.tudelft.jpacman.board.Square;
@@ -11,6 +13,9 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -76,11 +81,15 @@ public class MapParserTest {
 
         mp = Mockito.spy(new MapParser(lf, bf));
         gr = new Square[1][1];
+        gr[0][0] = sq;
+
+        //  Return a mocked Board from the mocked BoardFactory
+        when(bf.createBoard(any(gr.getClass()))).thenReturn(bd);
 
     }
 
     /**
-     *  Test the MapParser constructor for nice-weather situations.
+     *  Test the MapParser constructor.
      */
     @Test
     public void testConstructor1() {
@@ -90,7 +99,7 @@ public class MapParserTest {
     }
 
     /**
-     *  Test the ParseMap method for nice-weather conditions.
+     *  Test the parseMap method for a character array.
      */
     @Test
     public void testParseMapFromCharArray() {
@@ -100,10 +109,6 @@ public class MapParserTest {
         //  Define a trivial map
         char [][] map = new char[1][1];
         map[0][0] = 'P';
-        gr[0][0] = sq;
-
-        //  Return a mocked Board from the mocked BoardFactory
-        when(bf.createBoard(any(gr.getClass()))).thenReturn(bd);
 
         Level level = mp.parseMap(map);
         //  Check that the addSquare method gets called
@@ -112,9 +117,6 @@ public class MapParserTest {
         assertThat(level).isEqualTo(lev);
     }
 
-    @Test
-    void testMakeGrid() {
-    }
 
     /**
      *  Test the AddSquare method when there is empty ground.
@@ -191,26 +193,74 @@ public class MapParserTest {
         //  Check to see if the player position has been added to the list
         assertThat(sp.contains(sq));
 
+    }
 
+    /**
+     *  Test the parseMap method when the input is a String list
+     */
+    @Test
+    void testParseMapFromStringList() {
+        //  Spy on the method calls within MapParser object
+        MapParser mp = Mockito.spy(new MapParser(lf,bf));
+
+        //  Define a trivial String List
+        List<String> sl = new ArrayList<>(1);
+        sl.add(0,"P");
+
+        Level level = mp.parseMap(sl);
+
+        //  check that the method calls the character array version of the method
+        Mockito.verify(mp).parseMap(any(char[][].class));
+
+        //  check that the level that has been created is the mocked level
+        assertThat(level).isEqualTo(lev);
 
     }
 
-
+    /**
+     * Test the parseMap method when the input is an Input Stream.
+     * @throws IOException
+     */
     @Test
-    void testMakeGhostSquare() {
+    void testParseMapFromInputStream() throws IOException {
+        //  Spy on the method calls within MapParser object
+        MapParser mp = Mockito.spy(new MapParser(lf,bf));
+
+        //  Define a trivial InputStream
+        InputStream is = new ByteArrayInputStream( "P".getBytes());
+
+        Level level = mp.parseMap(is);
+
+        //  check that the method calls the String List version of the method
+        Mockito.verify(mp).parseMap(any(List.class));
+
+        //  check that the level that has been created is the mocked level
+        assertThat(level).isEqualTo(lev);
+
     }
 
+    /**
+     * Test the parseMap() method when the input is a filename.
+     * @throws IOException
+     */
     @Test
-    void testParseMapFromStringList() {}
+    void testParseMapFromString() throws IOException {
+        //  Spy on the method calls within MapParser object
+        MapParser mp = Mockito.spy(new MapParser(lf,bf));
 
-    @Test
-    void testCheckMapFormat() {}
+        //  Define a trivial String
+        String s = "/simplemap.txt";
 
-    @Test
-    void testParseMapFromInputStream() {}
+        Level level = mp.parseMap(s);
 
-    @Test
-    void testParseMapFromString() {}
+        //  check that the method calls the IOStream version of the parseMap method
+        Mockito.verify(mp).parseMap(any(InputStream.class));
+
+        //  check that the level that has been created is the mocked level
+        assertThat(level).isEqualTo(lev);
+
+    }
+
 
 
 }
