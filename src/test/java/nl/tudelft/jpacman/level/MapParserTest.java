@@ -39,8 +39,7 @@ class MapParserTest {
 
     @Mock private LevelFactory levelCreator;
     @Mock private BoardFactory boardCreator;
-    @InjectMocks
-    private MapParser mpm = new MapParser(lf, bf);
+    @InjectMocks private MapParser mpm;
 
     /**
      *  Set up the mock objects before each test.
@@ -74,6 +73,8 @@ class MapParserTest {
         gr = new Square[1][1];
         gr[0][0] = sq;
 
+        mpm = spy(new MapParser(lf, bf));
+
         //  Return a mocked Board from the mocked BoardFactory
         when(bf.createBoard(any(gr.getClass()))).thenReturn(bd);
     }
@@ -83,6 +84,7 @@ class MapParserTest {
      */
     @Test
     void testConstructor1() {
+        mpm = spy(new MapParser(lf, bf));
         assertThat(levelCreator).isInstanceOf(lf.getClass());
         assertThat(boardCreator).isInstanceOf(bf.getClass());
     }
@@ -158,7 +160,7 @@ class MapParserTest {
         mp.addSquare(gr, gh, sp, 0, 0, 'G');
 
         //  Check that a ghost was added to the list
-        assertThat(gh.contains(npc));
+        assertThat(gh).contains(npc);
         //  Check if the the occupy() method has been called on the ghost
         verify(npc).occupy(gr[0][0]);
 
@@ -181,7 +183,7 @@ class MapParserTest {
         assertThat(gr[0][0]).isEqualTo(sq);
 
         //  Check to see if the player position has been added to the list
-        assertThat(sp.contains(sq));
+        assertThat(sp).contains(sq);
 
     }
 
@@ -219,7 +221,7 @@ class MapParserTest {
         MapParser mp = Mockito.spy(new MapParser(lf, bf));
 
         //  Define a trivial InputStream
-        InputStream is = new ByteArrayInputStream("P".getBytes());
+        InputStream is = new ByteArrayInputStream("P".getBytes("UTF8"));
 
         Level level = mp.parseMap(is);
 
