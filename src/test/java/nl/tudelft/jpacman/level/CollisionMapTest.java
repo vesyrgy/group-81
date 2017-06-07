@@ -32,7 +32,7 @@ abstract class CollisionMapTest {
      * collision participants.
      */
     @BeforeEach
-    void setup() {
+    void init() {
         map = createMap();
         playerMock = mock(Player.class);
         pelletMock = mock(Pellet.class);

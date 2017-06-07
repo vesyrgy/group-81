@@ -5,6 +5,7 @@ package nl.tudelft.jpacman.level;
  * in order to run the tests on a PlayerCollisions map.
  * Created by basjenneboer on 6/6/17.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 class PlayerCollisionsTest extends CollisionMapTest {
 
     /**
