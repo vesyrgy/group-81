@@ -108,14 +108,14 @@ public class MoveThePlayerSteps {
 
     }
 
-    /**
-     * Check to see that the current square is the square
-     * to which we wanted to move.
-     */
-    @Then("^my Pacman can move to that square$")
-    public void my_Pacman_can_move_to_that_square() {
-        assertThat(player.getSquare()).isEqualTo(newSquare);
-    }
+//    /**
+//     * Check to see that the current square is the square
+//     * to which we wanted to move.
+//     */
+//    @Then("^my Pacman can move to that square$")
+//    public void my_Pacman_can_move_to_that_square() {
+//        assertThat(player.getSquare()).isEqualTo(newSquare);
+//    }
 
     /**
      * Check if the score has been incremented.
