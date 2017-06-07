@@ -124,7 +124,7 @@ the work effectively and gives a very clear record of what was done.
 ##4.3.20
 
 |         | r1           | r2                  | r3          | r4             |
-|---------|--------------|---------------------|-------------|----------------|
+| ------- | ------------ | ------------------- | ----------- | -------------- |
 | player  | collider     | collider            | collidee    |                |
 | ghost   | collidee     |                     | collider    | collider       |
 | pellet  |              | collidee            |             | collidee       |
@@ -136,11 +136,11 @@ the work effectively and gives a very clear record of what was done.
 
 ##4.3.24
 
-/                             / framework line coverage / our line coverage /
-/-----------------------------/-------------------------/-------------------/
-/ CollisionInteractionMap     / 0%                      / 94%               /
-/ DefaultPlayerInteractionMap / 0%                      / 100%              /
-/ PlayerCollisions            / 75%                     / 79%               /
+|                             | framework line coverage | our line coverage |
+| --------------------------- | ----------------------- | ----------------- |
+| CollisionInteractionMap     | 0%                      | 94%               |
+| DefaultPlayerInteractionMap | 0%                      | 100%              |
+| PlayerCollisions            | 75%                     | 79%               |
 
 Line coverage on PlayerCollisions have somewhat increases (4%).
 The original jpacman-framework did only cover collisions in which the player was the collider.
