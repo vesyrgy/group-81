@@ -118,3 +118,36 @@ The continuous integration server confirmed that our builds worked properly in m
 tried to avoid successively failing builds on DevHub, as evidenced by the many green commits. We used Git
 very extensively. In general, we tried to make new branches for different exercises. This allowed us to divide 
 the work effectively and gives a very clear record of what was done. 
+
+#4.3 Testing Collisions
+
+##4.3.20
+
+|         | r1           | r2                  | r3          | r4             |
+| ------- | ------------ | ------------------- | ----------- | -------------- |
+| player  | collider     | collider            | collidee    |                |
+| ghost   | collidee     |                     | collider    | collider       |
+| pellet  |              | collidee            |             | collidee       |
+|         |              |                     |             |                |
+| outcome | player moves | player moves        | ghost moves | ghost moves    |
+|         | player dies  | player earns points | player dies | pellet remains |
+|         |              | pellet disappears   |             |                |
+|         |              |                     |             |                |
+
+##4.3.24
+
+|                             | framework line coverage | our line coverage |
+| --------------------------- | ----------------------- | ----------------- |
+| CollisionInteractionMap     | 0%                      | 94%               |
+| DefaultPlayerInteractionMap | 0%                      | 100%              |
+| PlayerCollisions            | 75%                     | 79%               |
+
+Line coverage on PlayerCollisions have somewhat increases (4%).
+The original jpacman-framework did only cover collisions in which the player was the collider.
+We covered collisions with a ghost as collider aditionally.
+
+The collision functionality that remains unchecked is the case when a pellet is the collider.
+This however, is not a functionality that is specified by the requirements and can therefore be left unchecked.
+
+Also coverage on CollisionInteractionMap and DefaultPlayerInteractionMap have increased drastically,
+only by applying the PlayerCollisions testsuite on them too.
