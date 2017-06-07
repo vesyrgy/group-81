@@ -151,3 +151,19 @@ This however, is not a functionality that is specified by the requirements and c
 
 Also coverage on CollisionInteractionMap and DefaultPlayerInteractionMap have increased drastically,
 only by applying the PlayerCollisions testsuite on them too.
+
+#4.4 Complex Tests
+
+##4.4.26
+
+`LauncherSmokeTest.smokeTest()` can become flakey as a result of an assumption that the call to `Thread.sleep(500L)`
+will be sufficient to bring the monsters within 20 steps of the player. Since the movement of the monsters depends on 
+a random number generator, the movements of the ghosts are not explicitly guaranteed to meet this criterion. So, the 
+call to `assertThat(player.isAlive()).isFalse()` can sometimes yield a failing test. The paper by Luo et al. identifies 
+the three main causes of flakey tests as (1) "ASYNC WAIT": asynchronous calls which do not properly wait for the resource being 
+called, (2) concurrency and (3) test order dependency. Each type of flakey test has its own fix. For example, for ASYNC WAIT, 
+a common fix prescibed by Luo et al. is to enforce the blocking of a given thread through `waitFor`. But, the overarching 
+theme of these fixes is that we need to enforce determinism in our tests.
+
+###4.4.28
+
