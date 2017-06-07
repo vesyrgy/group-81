@@ -16,14 +16,12 @@ import org.junit.jupiter.api.Test;
  * Use mockito mocking framework to unit test game.Game.
  * Created by basjenneboer on 5/24/17.
  */
-@SuppressWarnings("PMD.TooManyStaticImports") //these are really needed
+@SuppressWarnings({"PMD.TooManyStaticImports", "PMD.TestClassWithoutTestCases"})
 class GameUnitTest {
     private Game game;
     private Player mockPlayer;
     private Level mockLevel;
 
-    private final static int MORE_THAN_ZERO = 5;
-    private final static int ZERO = 0;
     /**
      * Create a game by using mocks for player and level.
      */
@@ -42,8 +40,9 @@ class GameUnitTest {
     @Test
     void testPlayerAliveAndPelletsRemaining() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
-        when(mockLevel.remainingPellets()).thenReturn(MORE_THAN_ZERO);
-
+        //Check:OFF: MagicNumber
+        when(mockLevel.remainingPellets()).thenReturn(5);
+        //Check:ON: MagicNumber
         game.start();
 
         assertThat(game.isInProgress()).isTrue();
@@ -57,7 +56,7 @@ class GameUnitTest {
     @Test
     void testPlayerAliveAndNoPelletsRemaining() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
-        when(mockLevel.remainingPellets()).thenReturn(ZERO);
+        when(mockLevel.remainingPellets()).thenReturn(0);
 
         game.start();
 
@@ -72,7 +71,9 @@ class GameUnitTest {
     @Test
     void testPlayerDeadAndPelletsRemaining() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(false);
-        when(mockLevel.remainingPellets()).thenReturn(MORE_THAN_ZERO);
+        //Check:OFF: MagicNumber
+        when(mockLevel.remainingPellets()).thenReturn(5);
+        //Check:ON: MagicNumber
 
         game.start();
 
@@ -87,7 +88,9 @@ class GameUnitTest {
     @Test
     void testGameAlreadyInProgress() {
         when(mockLevel.isAnyPlayerAlive()).thenReturn(true);
-        when(mockLevel.remainingPellets()).thenReturn(MORE_THAN_ZERO);
+        //Check:OFF: MagicNumber
+        when(mockLevel.remainingPellets()).thenReturn(5);
+        //Check:ON: MagicNumber
         game.start();
 
         game.start();
