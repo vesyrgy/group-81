@@ -167,3 +167,8 @@ theme of these fixes is that we need to enforce determinism in our tests.
 
 ###4.4.28
 
+One disadvantage of using mocks is that one could make the mistake of testing a mock by accident without realizing
+it. When using the more advanced features of certain mocking frameworks there is a risk of misunderstanding what 
+exactly that code is doing, which may result in green tests which don't actually test the software that is supposed to be tested. 
+Furthermore, the overextensive use of mocking can lead to slower tests and possible problems that result from the interactions
+between the mocks themselves. 
