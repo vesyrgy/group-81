@@ -192,10 +192,30 @@ Mocking can be done during integration testing for some dependencies that are no
 Mocking should not be done during system testing, because the whole system should be under test and 
 when using mocks, you are partly testing your mocks instead of the real implementation.
 
-
 #5.1 State Machines
+
+##5.1.31
+See report.pdf.
+
+##5.2.32
+See report.pdf for transition tree.
+
+/ Test Case ID / Start State / Events             / End State   /
+/ ------------ / ----------- / ------------------ / ----------- /
+/ T1           / GUI Started / start, win         / Won         /
+/ T2           / GUI Started / start, loose       / Lost        /
+/ T3           / GUI Started / start, stop, start / Playing     /
+
+##5.2.33
+
+/ States      / events                         /
+/ ----------- / ------------------------------ /
+/             / stop   / start   / win / loose /
+/ ----------- / ------ / ------- / --- / ----- /
+/ GUI Started /        / Playing /     /       /
+/ Playing     / Paused /         / Won / Lost  /
+/ Paused      /        / Playing /     /       /
 
 #5.2 Multi-Level Games
 
 #5.3 Test Smells
-
