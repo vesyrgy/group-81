@@ -191,3 +191,11 @@ Mocking should mostly be done during unit testing, because it provides isolation
 Mocking can be done during integration testing for some dependencies that are not directly under test.
 Mocking should not be done during system testing, because the whole system should be under test and 
 when using mocks, you are partly testing your mocks instead of the real implementation.
+
+
+#5.1 State Machines
+
+#5.2 Multi-Level Games
+
+#5.3 Test Smells
+
