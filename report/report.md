@@ -216,6 +216,15 @@ See report.pdf for transition tree.
 / Playing     / Paused /         / Won / Lost  /
 / Paused      /        / Playing /     /       /
 
+(state, event) pairs not contained in diagram:
+(GUI Started, stop)
+(GUI Started, win)
+(GUI Started, loose)
+(Playing, start)
+(Paused, stop)
+(Paused, win)
+(Paused, loose)
+
 #5.2 Multi-Level Games
 
 #5.3 Test Smells
