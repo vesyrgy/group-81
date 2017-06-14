@@ -42,9 +42,10 @@ public class MultiLevelTest {
 
     @Test
     void multilevelTestCaseT2() {
+        //  start the game with a map where Pacman will lose immediately
 
         //  lose the level
-        ml_game.levelWon();
+        ml_game.levelLost();
 
         //  verify that the game has been lost
 
