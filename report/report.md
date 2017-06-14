@@ -204,7 +204,16 @@ See https://www.lucidchart.com/invitations/accept/b5a4efc0-83c4-47bf-9222-d37494
 
 ##5.2.38
 
-//TODO
+| Test Case ID | Start State | Events                   | End State         |
+| ------------ | ----------- | -------------------------|------------------ |
+| T1           | GUI Started | start, win level (<4)    | Playing New Level |
+| T2           | GUI Started | start, lose              |   Lost            |
+| T3           | GUI Started | start, stop, start       | Playing Level     |
+| T4           | GUI Started | start, win level (=4)    |   Won Game        |
+
+T2 and T3 could almost be reused, since they don't involve any change in the level. But, it may still be necessary to 
+modify them slightly, since they should make use of the MultiGameLauncher, rather than the Launcher, T1 would have to be
+modified further.
 
 #5.3 Test Smells
 
