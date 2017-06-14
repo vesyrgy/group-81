@@ -204,7 +204,17 @@ See https://www.lucidchart.com/invitations/accept/b5a4efc0-83c4-47bf-9222-d37494
 
 ##5.2.38
 
-//TODO
+//TODO (depends on 32 & 33)
+
+##5.2.41
+
+//TODO (depends on 34)
+
+##5.2.
+
+//TODO (depends on 38)
+
+
 
 #5.3 Test Smells
 
