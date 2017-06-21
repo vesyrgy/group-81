@@ -1,14 +1,15 @@
 package nl.tudelft.jpacman.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
 import nl.tudelft.jpacman.group81.MyExtension;
 import nl.tudelft.jpacman.level.Level;
 import org.junit.jupiter.api.Test;
-import sun.launcher.resources.launcher;
 
 /**
  * Created by basjenneboer on 6/14/17.
@@ -102,6 +103,7 @@ public class GameTest {
     void testSneakPathGUIStartedStop() {
         startGUI("/testMap2.txt");
         verifyGUIStarted();
+
         game.stop();
         verifyGUIStarted();
     }
@@ -112,5 +114,57 @@ public class GameTest {
         verifyGUIStarted();
         game.move(game.getPlayers().get(0), Direction.EAST);
         verifyGUIStarted();
+    }
+
+    @Test
+    void testSneakPathGUIStartedLoose() {
+        startGUI("/testMap3.txt");
+        verifyGUIStarted();
+
+        game.move(game.getPlayers().get(0), Direction.SOUTH);
+        verifyGUIStarted();
+    }
+
+    @Test
+    void testSneakPathPlayingStart() {
+        startGUI("/testMap2.txt");
+        game.start();
+        verifyPlaying();
+
+        game.start();
+        verifyPlaying();
+    }
+
+    @Test
+    void testSneakPathPausedStop() {
+        startGUI("/testMap2.txt");
+        game.start();
+        game.stop();
+        verifyPaused();
+
+        game.stop();
+        verifyPaused();
+    }
+
+    @Test
+    void testSneakPathPausedWin() {
+        startGUI("/testMap2.txt");
+        game.start();
+        game.stop();
+        verifyPaused();
+
+        game.move(game.getPlayers().get(0), Direction.EAST);
+        verifyPaused();
+    }
+
+    @Test
+    void testSneakPathPausedLoose() {
+        startGUI("/testMap3.txt");
+        game.start();
+        game.stop();
+        verifyPaused();
+
+        game.move(game.getPlayers().get(0), Direction.SOUTH);
+        verifyPaused();
     }
 }
