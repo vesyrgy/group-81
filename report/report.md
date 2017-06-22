@@ -199,8 +199,7 @@ when using mocks, you are partly testing your mocks instead of the real implemen
 
 ##5.2.37
 
-See https://www.lucidchart.com/invitations/accept/b5a4efc0-83c4-47bf-9222-d37494b348f6
-(image will be added to the report later)
+![Multilevel State Machine](5.2.37.png)
 
 ##5.2.38
 
