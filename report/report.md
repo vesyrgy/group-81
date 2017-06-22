@@ -199,16 +199,16 @@ when using mocks, you are partly testing your mocks instead of the real implemen
 ![Transition Tree](5.1.32.png)
 
 | Test Case ID | Start State | Events             | End State   |
-| :----------- | :---------- | :----------------- | :---------- |
+| ------------ | ----------- | ------------------ | ----------- |
 | T1           | GUI Started | start, win         | Won         |
 | T2           | GUI Started | start, loose       | Lost        |
 | T3           | GUI Started | start, stop, start | Playing     |
 
 ##5.2.33                                                 
 | States      	| Events 	|         	|     	|      	|
-|:--------------|-----------|-----------|-------|-------|
+| ------------- | --------- | --------- | ----- | ----- |
 |             	| Stop   	| Start   	| Win 	| Lose 	|
-|               |-----------|-----------|-------|-------|
+| ------------- | --------- | --------- | ----- | ----- |
 | GUI Started 	|        	| Playing 	|     	|      	|
 | Playing     	| Paused 	|         	| Won 	| Lost 	|
 | Paused      	|        	| Playing 	|     	|      	|
