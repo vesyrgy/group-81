@@ -1,9 +1,7 @@
 package nl.tudelft.jpacman.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
@@ -14,14 +12,14 @@ import org.junit.jupiter.api.Test;
  * Created by basjenneboer on 6/14/17.
  */
 public abstract class GameTest {
-    Launcher launcher;
-    Game game;
-    Level level;
-    Level.LevelObserver levelObserverMock;
+    public Launcher launcher;
+    public Game game;
+    public Level level;
+    public Level.LevelObserver levelObserverMock;
 
     public abstract Launcher getLauncher();
 
-    void startGUI(String mapFile) {
+    public void startGUI(String mapFile) {
         launcher = getLauncher();
         if (mapFile != null) {
             launcher = launcher.withMapFile(mapFile);
@@ -33,44 +31,29 @@ public abstract class GameTest {
         level.addObserver(levelObserverMock);
     }
 
-    void verifyGUIStarted() {
+    public void verifyGUIStarted() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
+        verify(levelObserverMock, never()).levelLost();
+        verify(levelObserverMock, never()).levelWon();
     }
 
-    void verifyPlaying() {
+    public void verifyPlaying() {
         assertThat(game.isInProgress());
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
     }
 
-    void verifyPaused() {
+    public void verifyPaused() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
     }
 
-    void verifyWon() {
+    public void verifyWon() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock).levelWon();
-        verify(levelObserverMock, times(0)).levelLost();
+        verify(levelObserverMock, atLeastOnce()).levelWon();
+        verify(levelObserverMock, never()).levelLost();
     }
 
-    void verifyLost() {
+    public void verifyLost() {
         assertThat(level.isInProgress()).isFalse();
         verify(levelObserverMock).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
-    }
-
-    @Test
-    void testT1Conformance() {
-        startGUI("/testMap2.txt");
-        verifyGUIStarted();
-        game.start();
-        verifyPlaying();
-        level.move(game.getPlayers().get(0), Direction.EAST);
-        verifyWon();
     }
 
     @Test
