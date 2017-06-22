@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  */
 public class MultiLevelSteps {
 
-    private Launcher launcher;
+    private MultiLevelLauncher launcher;
     private Game game;
     private Player player;
     private Level.LevelObserver levelObserverMock;

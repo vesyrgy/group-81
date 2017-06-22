@@ -1,9 +1,7 @@
 package nl.tudelft.jpacman.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
@@ -35,42 +33,27 @@ public abstract class GameTest {
 
     public void verifyGUIStarted() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
+        verify(levelObserverMock, never()).levelLost();
+        verify(levelObserverMock, never()).levelWon();
     }
 
     public void verifyPlaying() {
         assertThat(game.isInProgress());
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
     }
 
     public void verifyPaused() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
     }
 
     public void verifyWon() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock).levelWon();
-        verify(levelObserverMock, times(0)).levelLost();
+        verify(levelObserverMock, atLeastOnce()).levelWon();
+        verify(levelObserverMock, never()).levelLost();
     }
 
     public void verifyLost() {
         assertThat(level.isInProgress()).isFalse();
         verify(levelObserverMock).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
-    }
-
-    @Test
-    void testT1Conformance() {
-        startGUI("/testMap2.txt");
-        verifyGUIStarted();
-        game.start();
-        verifyPlaying();
-        level.move(game.getPlayers().get(0), Direction.EAST);
-        verifyWon();
     }
 
     @Test

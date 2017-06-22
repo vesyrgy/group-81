@@ -40,7 +40,6 @@ public class MultiLevelGameTest extends GameTest {
         verifyLevelsWon(0);
 
         level.move(game.getPlayers().get(0), Direction.EAST);
-        game.start();
         verifyPlaying();
         verifyLevelsWon(1);
     }
