@@ -316,3 +316,22 @@ void testAddSquareGround() {
 
 ##5.5.48
 
+
+Three things that were good:
+
+1.  Our test coverage has improved significantly since part 1. It would be very alarming if the opposite were true.
+2.  Our tests pass, which is always a good thing. 
+3.  The JPacman Framework is a sufficiently complex piece of software such that the work of developing tests for it was 
+    varied, challenging, and interesting.   
+
+Three things that were bad/annoying:
+
+1.  The fact that DevHub could not handle the load/traffic at peak times (e.g. right before the deadline) was problematic. It seems 
+    to suggest that DevHub has not been properly load tested. Perhaps this could be fixed by allocating more resources to
+    DevHub during peak hours. 
+2.  PMD/Checkstyle/Findbugs can be really annoying because they often complain about really stupid things and sometimes seem to complain about
+    nonexistent issues. This can be fixed by either ignoring certain rules or by submitting bug reports (such as the TAs did in the case of PMD).
+3.  Mockito is not necessarily the best option for mocking. Its limitations, in terms of what it can or cannot mock or observe can be
+    frustrating at times. A more powerful framework such as PowerMock might be a better alternative in the future.
+
+
