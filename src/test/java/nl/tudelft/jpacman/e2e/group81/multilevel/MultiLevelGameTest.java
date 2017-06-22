@@ -39,7 +39,7 @@ public class MultiLevelGameTest extends GameTest {
      *  T1 conformance test for multilevel.
      */
     @Test
-    void testT1MultiLevel() {
+    void testT1Conformance() {
         startGUI("/testMap2.txt");
         verifyGUIStarted();
 
