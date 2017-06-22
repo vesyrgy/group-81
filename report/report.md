@@ -243,13 +243,75 @@ T2 and T3 could almost be reused, since they don't involve any change in the lev
 modify them slightly, since they should make use of the MultiGameLauncher, rather than the Launcher, T1 would have to be
 modified further.
 
-##5.2.41
-
-//TODO (depends on 34)
-
-##5.2.42
-
-//TODO (depends on 38)
 
 
 #5.3 Test Smells
+
+##5.3.46
+
+Below, the `testWithinBorders` method has been changed to a smelly multiple
+assertions test. Instead of being parameterized and using a single `assertEquals`, 
+the test now uses multiple asserts and multiple types of asserts. Since 
+`assertTrue` and `assertFalse` don't give the expected and resulting values, 
+it would be difficult to determine why the test failed, since there are multiple
+assertions that would give the same output on failure. In contrast to this, the
+original, parameterized version of this test allows us to identify specifically
+which input caused the test to fail.
+
+
+````
+@Test
+    void testWithinBorders(int x, int y, boolean z) {
+            int x = 0;
+            int y = 3;
+            assertTrue(board.withinBorders(x, y));
+           `y = -1;
+            assertFalse(board.withinBorders(x, y));
+            y = -6;
+            assertEquals(board.withinBorders(x, y), false);
+            y = 0;
+            x = -1;
+            assertFalse(board.withinBorders(x, y));
+            x = 3;
+            assertThat(board.withinBorders(x, y)).isEqualTo(true);
+            x = 1;
+            assertTrue(board.withinBorders(x, y));
+            x = 4;
+            y = 2;
+            assertEquals(board.withinBorders(x, y), false);
+            x = 2;
+            y = 5;
+            assertTrue(board.withinBorders(x, y));
+    }
+````
+
+##5.3.47
+Below, the `testAddSquareGround` method from the `MapParserTest` class has been turned into an Irrelevant
+Details test. In contrast to the original test method, the method below does not use any mocks. As a result, 
+the test could fail as a result of details that are irrelevant to the method that we want to test. For example,
+the improper implementation of BoardFactory, LevelFactory, and Square could all cause the test to fail for 
+reasons that have nothing to do with the `addSquare` method that we wish to test. Futhermore, the use of 
+`asssertTrue` further obfuscates the results, since it does not print the expected and actual values. 
+
+````
+void testAddSquareGround() {
+        Square grid = new Square(1,1);
+        Square sq = new Square(1,1);
+        grid[0][0] = null;
+        BoardFactory bf = new BoardFactory();
+        LevelFactory lf = new LevelFactory();
+        MapParser mp = new MapParser(lf, bf);
+        List<NPC> gh = new ArrayList<>();
+        List<Square> = new ArrayList<>();
+
+        mp.addSquare(gr, gh, sp, 0, 0, ' ');
+        
+        assertTrue(gr[0][0] == sq);
+
+    }
+
+````
+
+#5.5 
+
+##5.5.48
