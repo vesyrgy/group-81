@@ -8,8 +8,9 @@ import org.junit.runner.RunWith;
 /**
  * Entry point for running the the Cucumber tests in JUnit.
  *
- * This is adapted from e2e.group81.startup.StartupTest
+ * This is adapted from e2e.group81.startup.StartupTest.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 @RunWith(Cucumber.class)
 @CucumberOptions(
         plugin = {"pretty"},

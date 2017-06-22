@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 /**
  *  @author Lars Ysla.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class MultiLevelTest {
 
     private MultiLevelGame ml_game;
@@ -19,13 +20,16 @@ public class MultiLevelTest {
      *  Stuff to do before each test, like launching the GUI and starting the game.
      */
     @BeforeEach
-    void setup() {
+    void setUp() {
         ml_launcher = new MultiLevelLauncher();
         ml_launcher.launch();
         ml_game = ml_launcher.getGame();
         ml_game.start();
     }
 
+    /**
+     *  Multilevel adaptation of Conformance Test 1.
+     */
     @Test
     void multilevelTestCaseT1() {
 

@@ -8,6 +8,7 @@ import nl.tudelft.jpacman.group81.MultiLevelLauncher;
  * Provides GameTest with a MultiLevelLauncher instance.
  * Created by basjenneboer on 6/21/17.
  */
+@SuppressWarnings("PMD.TestClassWithoutTestCases")
 public class MultiLevelGameTest extends GameTest {
 
     /**

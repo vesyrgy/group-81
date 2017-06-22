@@ -1,7 +1,6 @@
 package nl.tudelft.jpacman.group81;
 
 import nl.tudelft.jpacman.group81.multilevel.MultiLevelGame;
-import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.level.Level;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
 
@@ -13,7 +12,7 @@ public class MultiLevelLauncher extends MyExtension {
     private MultiLevelGame multiGame;
 
     /**
-     * Start a Multi-Level version of Pacman
+     * Start a Multi-Level version of Pacman.
      *
      * @param argv Ignored
      */
