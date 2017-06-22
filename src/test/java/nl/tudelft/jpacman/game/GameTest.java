@@ -17,9 +17,11 @@ import org.junit.jupiter.api.Test;
  * Tests the state transitions.
  * Created by basjenneboer on 6/14/17.
  */
+@SuppressWarnings({"PMD.TooManyStaticImports", "PMD.TooManyMethods"})
 public abstract class GameTest {
     private Game game;
     private Level.LevelObserver levelObserverMock;
+    private static String ghostLessMap = "/testMap1.txt";
 
     /**
      * returns the current level.
@@ -33,7 +35,7 @@ public abstract class GameTest {
      * returns the LevelObserver mock.
      * @return The LevelObser mock.
      */
-    public Level.LevelObserver getObserver() {
+    protected Level.LevelObserver getObserver() {
         return levelObserverMock;
     }
 
@@ -81,7 +83,7 @@ public abstract class GameTest {
      * Checks if in Playing state.
      */
     protected void verifyPlaying() {
-        assertThat(game.isInProgress());
+        assertThat(game.isInProgress()).isTrue();
     }
 
     /**
@@ -126,7 +128,7 @@ public abstract class GameTest {
      */
     @Test
     void testT3Conformance() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         verifyGUIStarted();
         game.start();
         verifyPlaying();
@@ -157,7 +159,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathGUIStartedWin() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         verifyGUIStarted();
         game.move(game.getPlayers().get(0), Direction.EAST);
         verifyGUIStarted();
@@ -180,7 +182,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathPlayingStart() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         game.start();
         verifyPlaying();
 
@@ -193,7 +195,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathPausedStop() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         game.start();
         game.stop();
         verifyPaused();
@@ -207,7 +209,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathPausedWin() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         game.start();
         game.stop();
         verifyPaused();

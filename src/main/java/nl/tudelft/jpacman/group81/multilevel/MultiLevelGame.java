@@ -42,7 +42,7 @@ public class MultiLevelGame extends Game {
     @Override
     public void levelWon() {
 
-        //CHECK:OFF: MagicNumber
+        //Check:OFF: MagicNumber
         if (levelNumber < 3) {
             levelNumber++;
             getLevel().registerPlayer(players.get(levelNumber));
@@ -50,7 +50,7 @@ public class MultiLevelGame extends Game {
             getLevel().start();
             return;
         }
-        //CHECK:ON: MagicNumber
+        //Check:ON: MagicNumber
         stop();
     }
 }

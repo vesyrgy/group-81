@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
  * {@inheritDoc}
  * Created by basjenneboer on 6/21/17.
  */
+@SuppressWarnings({"PMD.TestClassWithoutTestCases"})
 public class SinglePlayerGameTest extends GameTest {
 
     /**

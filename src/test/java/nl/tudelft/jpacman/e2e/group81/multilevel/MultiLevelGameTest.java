@@ -14,6 +14,7 @@ import static org.mockito.Mockito.verify;
  * Provides GameTest with a MultiLevelLauncher instance.
  * Created by basjenneboer on 6/21/17.
  */
+@SuppressWarnings({"PMD.TestClassWithoutTestCases"})
 public class MultiLevelGameTest extends GameTest {
 
     /**
@@ -58,13 +59,13 @@ public class MultiLevelGameTest extends GameTest {
         getGame().start();
         verifyPlaying();
 
-        //CHECK:OFF: MagicNumber
+        //Check:OFF: MagicNumber
         for (int wonLevels = 0; wonLevels < 3; wonLevels++) {
             getGame().getLevel().move(getGame().getPlayers().get(0), Direction.EAST);
             getGame().getLevel().addObserver(getObserver());
         }
         verifyLevelsWon(3);
-        //CHECK:ON: MagicNumber
+        //Check:ON: MagicNumber
 
         getGame().getLevel().move(getGame().getPlayers().get(0), Direction.EAST);
         verifyWon();

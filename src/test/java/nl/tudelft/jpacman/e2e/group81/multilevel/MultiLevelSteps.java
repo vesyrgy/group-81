@@ -24,6 +24,7 @@ import static org.mockito.Mockito.times;
  * Cucumber steps for multi level scenarios.
  *  @author Lars Ysla
  */
+@SuppressWarnings({"PMD.TooManyStaticImports"})
 public class MultiLevelSteps {
 
     private MultiLevelLauncher launcher;
@@ -69,11 +70,11 @@ public class MultiLevelSteps {
      * Checks that the level is less than four.
      */
     @Given("^the current level is less than four$")
-    //CHECK:OFF: MagicNumber
+    //Check:OFF: MagicNumber
     public void theCurrentLevelIsLessThanFour() {
         verify(levelObserverMock, atMost(3)).levelWon();
     }
-    //CHECK:ON: MagicNumber
+    //Check:ON: MagicNumber
 
     /**
      * Checks that in the loaded test map the player is next to a pellet.
@@ -114,13 +115,13 @@ public class MultiLevelSteps {
      */
     @Given("^the current level is four$")
     public void theCurrentLevelIsFour() {
-        //CHECK:OFF: MagicNumber
+        //Check:OFF: MagicNumber
         for (int levelNr = 0; levelNr < 3; levelNr++) {
             game.getLevel().move(getPlayer(), Direction.EAST);
             game.getLevel().addObserver(levelObserverMock);
         }
         verify(levelObserverMock, times(3)).levelWon();
-        //CHECK:ON: MagicNumber
+        //Check:ON: MagicNumber
         assertThat(game.isInProgress()).isTrue();
     }
 
@@ -129,9 +130,9 @@ public class MultiLevelSteps {
      */
     @Then("^I win the game$")
     public void iWinTheGame() {
-        //CHECK:OFF: MagicNumber
+        //Check:OFF: MagicNumber
         verify(levelObserverMock, times(4)).levelWon();
-        //CHECK:ON: MagicNumber
+        //Check:ON: MagicNumber
         assertThat(game.isInProgress()).isFalse();
     }
 

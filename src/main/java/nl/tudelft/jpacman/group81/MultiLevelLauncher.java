@@ -33,12 +33,12 @@ public class MultiLevelLauncher extends MyExtension {
     public MultiLevelGame makeGame() {
         ArrayList<Level> levels = new ArrayList<>();
         ArrayList<Player> players = new ArrayList<>();
-        //CHECK:OFF: MagicNumber
+        //Check:OFF: MagicNumber
         for (int i = 0; i < 4; i++) {
             levels.add(makeLevel());
             players.add(getPlayerFactory().createPacMan());
         }
-        //CHECK:ON: MagicNumber
+        //Check:ON: MagicNumber
         multiGame = new MultiLevelGame(players, levels);
         return multiGame;
     }
