@@ -31,6 +31,7 @@ public class MultiLevelLauncher extends MyExtension {
     public MultiLevelGame makeGame() {
         Level level = makeLevel();
         multiGame = new MultiLevelGame(getPlayerFactory().createPacMan(), level);
+
         return multiGame;
     }
 
