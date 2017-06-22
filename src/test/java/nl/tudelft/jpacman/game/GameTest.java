@@ -19,6 +19,9 @@ public abstract class GameTest {
     private Game game;
     private Level level;
     private Level.LevelObserver levelObserverMock;
+    private String mapfile1 = "/testMap1.txt";
+    private String mapfile2 = "/testMap2.txt";
+    private String mapfile3 = "/testMap3.txt";
 
     /**
      * @return the relevant launcher.
@@ -26,8 +29,8 @@ public abstract class GameTest {
     public abstract Launcher getLauncher();
 
     /**
-     * Start the GUI.
      * @param mapFile
+     * Start the GUI.
      */
     void startGUI(String mapFile) {
         launcher = getLauncher();
@@ -54,7 +57,7 @@ public abstract class GameTest {
      *  Make sure the game is in the playing state.
      */
     void verifyPlaying() {
-        assertThat(game.isInProgress());
+        assertThat(game.isInProgress()).isTrue();
         verify(levelObserverMock, times(0)).levelLost();
         verify(levelObserverMock, times(0)).levelWon();
     }
@@ -91,7 +94,7 @@ public abstract class GameTest {
      */
     @Test
     void testT1Conformance() {
-        startGUI("/testMap2.txt");
+        startGUI(mapfile2);
         verifyGUIStarted();
         game.start();
         verifyPlaying();
@@ -104,7 +107,7 @@ public abstract class GameTest {
      */
     @Test
     void testT2Conformance() {
-        startGUI("/testMap1.txt");
+        startGUI(mapfile1);
         verifyGUIStarted();
         game.start();
         verifyPlaying();
@@ -117,7 +120,7 @@ public abstract class GameTest {
      */
     @Test
     void testT3Conformance() {
-        startGUI("/testMap2.txt");
+        startGUI(mapfile2);
         verifyGUIStarted();
         game.start();
         verifyPlaying();
@@ -136,7 +139,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathGUIStartedStop() {
-        startGUI("/testMap2.txt");
+        startGUI(mapfile2);
         verifyGUIStarted();
 
         game.stop();
@@ -148,7 +151,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathGUIStartedWin() {
-        startGUI("/testMap2.txt");
+        startGUI(mapfile2);
         verifyGUIStarted();
         game.move(game.getPlayers().get(0), Direction.EAST);
         verifyGUIStarted();
@@ -159,7 +162,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathGUIStartedLoose() {
-        startGUI("/testMap3.txt");
+        startGUI(mapfile3);
         verifyGUIStarted();
 
         game.move(game.getPlayers().get(0), Direction.SOUTH);
@@ -171,7 +174,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathPlayingStart() {
-        startGUI("/testMap2.txt");
+        startGUI(mapfile2);
         game.start();
         verifyPlaying();
 
@@ -184,7 +187,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathPausedStop() {
-        startGUI("/testMap2.txt");
+        startGUI(mapfile2);
         game.start();
         game.stop();
         verifyPaused();
@@ -198,7 +201,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathPausedWin() {
-        startGUI("/testMap2.txt");
+        startGUI(mapfile2);
         game.start();
         game.stop();
         verifyPaused();
@@ -212,7 +215,7 @@ public abstract class GameTest {
      */
     @Test
     void testSneakPathPausedLoose() {
-        startGUI("/testMap3.txt");
+        startGUI(mapfile3);
         game.start();
         game.stop();
         verifyPaused();

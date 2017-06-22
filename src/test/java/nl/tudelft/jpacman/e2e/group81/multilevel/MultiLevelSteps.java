@@ -10,48 +10,73 @@ import cucumber.api.java.en.When;
  *  @author Lars Ysla
  */
 public class MultiLevelSteps {
+
+    /**
+     * @throws PendingException
+     */
     @Given("^the game has started$")
     public void theGameHasStarted() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * @throws PendingException
+     */
     @Given("^the current level is less than four$")
     public void theCurrentLevelIsLessThanFour() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * @throws PendingException
+     */
     @Given("^my Pacman is next to a square containing a pellet$")
     public void myPacmanIsNextToASquareContainingAPellet() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * @throws PendingException
+     */
     @When("^I have eaten the last pellet$")
     public void iHaveEatenTheLastPellet() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * @throws PendingException
+     */
     @Then("^I win the level$")
     public void iWinTheLevel() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * @throws PendingException
+     */
     @Then("^the next level starts$")
     public void theNextLevelStarts() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * @throws PendingException
+     */
     @Given("^the current level is four$")
     public void theCurrentLevelIsFour() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
         throw new PendingException();
     }
 
+    /**
+     * @throws PendingException
+     */
     @Then("^I win the game$")
     public void iWinTheGame() throws Throwable {
         // Write code here that turns the phrase above into concrete actions
