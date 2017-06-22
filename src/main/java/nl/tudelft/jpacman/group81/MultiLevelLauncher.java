@@ -1,6 +1,5 @@
 package nl.tudelft.jpacman.group81;
 
-import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.group81.multilevel.MultiLevelGame;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
@@ -29,6 +28,7 @@ public class MultiLevelLauncher extends MyExtension {
      *
      * @return a new Game.
      */
+    @SuppressWarnings("checkstyle:magicnumber")
     @EnsuresNonNull("game")
     @Override
     public MultiLevelGame makeGame() {

@@ -11,13 +11,13 @@ import org.junit.jupiter.api.Test;
 /**
  * Created by basjenneboer on 6/14/17.
  */
-@SuppressWarnings("PMD.TooManyMethods")
+@SuppressWarnings({"PMD.TooManyMethods", "checkstyle:visibilitymodifier"})
 public abstract class GameTest {
 
     private Launcher launcher;
-    private Game game;
+    protected Game game;
     private Level level;
-    private Level.LevelObserver levelObserverMock;
+    protected Level.LevelObserver levelObserverMock;
     private String mapfile1 = "/testMap1.txt";
     private String mapfile2 = "/testMap2.txt";
     private String mapfile3 = "/testMap3.txt";
@@ -31,7 +31,7 @@ public abstract class GameTest {
      * @param mapFile
      * Start the GUI.
      */
-    void startGUI(String mapFile) {
+    protected void startGUI(String mapFile) {
 
         launcher = getLauncher();
         if (mapFile != null) {
@@ -47,7 +47,7 @@ public abstract class GameTest {
     /**
      *  Check that the GUI has started.
      */
-    void verifyGUIStarted() {
+    protected void verifyGUIStarted() {
 
         assertThat(game.isInProgress()).isFalse();
         verify(levelObserverMock, never()).levelLost();
@@ -58,7 +58,7 @@ public abstract class GameTest {
     /**
      *  Make sure the game is in the playing state.
      */
-    void verifyPlaying() {
+    protected void verifyPlaying() {
         assertThat(game.isInProgress()).isTrue();
         verify(levelObserverMock, times(0)).levelLost();
         verify(levelObserverMock, times(0)).levelWon();
@@ -76,7 +76,7 @@ public abstract class GameTest {
     /**
      *  Test if the level has been won.
      */
-    void verifyWon() {
+    protected void verifyWon() {
 
         assertThat(game.isInProgress()).isFalse();
         verify(levelObserverMock, atLeastOnce()).levelWon();

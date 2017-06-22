@@ -25,12 +25,19 @@ public class MultiLevelGameTest extends GameTest {
         return new MultiLevelLauncher();
     }
 
+    /**
+     * @param levelsWon
+     * Make sure the levels are won.
+     */
     void verifyLevelsWon(int levelsWon) {
         assertThat(game.isInProgress()).isTrue();
         verify(levelObserverMock, times(levelsWon)).levelWon();
         verify(levelObserverMock, times(0)).levelLost();
     }
 
+    /**
+     *  T1 conformance test for multilevel.
+     */
     @Test
     void testT1MultiLevel() {
         startGUI("/testMap2.txt");
@@ -45,6 +52,10 @@ public class MultiLevelGameTest extends GameTest {
         verifyLevelsWon(1);
     }
 
+    /**
+     *  T4 conformance test.
+     */
+    @SuppressWarnings("checkstyle:magicnumber")
     @Test
     void testT4MultiLevel() {
         startGUI("/testMap2.txt");

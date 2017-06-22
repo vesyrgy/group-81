@@ -2,12 +2,8 @@ package nl.tudelft.jpacman.group81.multilevel;
 
 import com.google.common.collect.ImmutableList;
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.game.SinglePlayerGame;
-import nl.tudelft.jpacman.group81.MultiLevelLauncher;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
-
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,14 +27,24 @@ public class MultiLevelGame extends Game {
         getLevel().registerPlayer(players.get(levelNumber));
     }
 
+    /**
+     * @return list of players.
+     */
     public List<Player> getPlayers() {
         return ImmutableList.of(players.get(levelNumber));
     }
 
+    /**
+     * @return current level.
+     */
     public Level getLevel() {
         return levels.get(levelNumber);
     }
 
+    /**
+     * Win levels.
+     */
+    @SuppressWarnings("checkstyle:magicnumber")
     @Override
     public void levelWon() {
         if (levelNumber < 3) {

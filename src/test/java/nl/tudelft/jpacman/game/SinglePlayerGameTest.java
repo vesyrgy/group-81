@@ -18,13 +18,16 @@ public class SinglePlayerGameTest extends GameTest {
         return new MyExtension();
     }
 
+    /**
+     *  T1 conformance test for single level game.
+     */
     @Test
     void testT1Conformance() {
         startGUI("/testMap2.txt");
         verifyGUIStarted();
         game.start();
         verifyPlaying();
-        getLevel().move(game.getPlayers().get(0), Direction.EAST);
+        game.getLevel().move(game.getPlayers().get(0), Direction.EAST);
         verifyWon();
     }
 }
