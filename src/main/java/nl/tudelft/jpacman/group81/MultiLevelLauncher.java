@@ -15,15 +15,6 @@ public class MultiLevelLauncher extends MyExtension {
     private MultiLevelGame multiGame;
 
     /**
-     * Start a Multi-Level version of Pacman.
-     *
-     * @param argv Ignored
-     */
-    public static void main(String[] argv) {
-        (new MultiLevelLauncher()).launch();
-    }
-
-    /**
      * Creates a new game using the level from {@link #makeLevel()}.
      *
      * @return a new Game.
