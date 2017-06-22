@@ -1,8 +1,6 @@
 package nl.tudelft.jpacman.group81;
 
-import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.group81.multilevel.MultiLevelGame;
-import nl.tudelft.jpacman.game.GameFactory;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
 import org.checkerframework.checker.nullness.qual.EnsuresNonNull;
@@ -17,7 +15,7 @@ public class MultiLevelLauncher extends MyExtension {
     private MultiLevelGame multiGame;
 
     /**
-     * Start a Multi-Level version of Pacman
+     * Start a Multi-Level version of Pacman.
      *
      * @param argv Ignored
      */
@@ -33,12 +31,14 @@ public class MultiLevelLauncher extends MyExtension {
     @EnsuresNonNull("game")
     @Override
     public MultiLevelGame makeGame() {
-        ArrayList<Level> levels = new ArrayList<Level>();
-        ArrayList<Player> players = new ArrayList<Player>();
+        ArrayList<Level> levels = new ArrayList<>();
+        ArrayList<Player> players = new ArrayList<>();
+        //CHECK:OFF: MagicNumber
         for (int i = 0; i < 4; i++) {
             levels.add(makeLevel());
             players.add(getPlayerFactory().createPacMan());
         }
+        //CHECK:ON: MagicNumber
         multiGame = new MultiLevelGame(players, levels);
         return multiGame;
     }

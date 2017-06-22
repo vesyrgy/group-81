@@ -2,15 +2,13 @@ package nl.tudelft.jpacman.group81.multilevel;
 
 import com.google.common.collect.ImmutableList;
 import nl.tudelft.jpacman.game.Game;
-import nl.tudelft.jpacman.game.SinglePlayerGame;
-import nl.tudelft.jpacman.group81.MultiLevelLauncher;
 import nl.tudelft.jpacman.level.Level;
 import nl.tudelft.jpacman.level.Player;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * Implements a game with multiple levels.
  *  @author Lars Ysla
  */
 public class MultiLevelGame extends Game {
@@ -31,16 +29,20 @@ public class MultiLevelGame extends Game {
         getLevel().registerPlayer(players.get(levelNumber));
     }
 
+    @Override
     public List<Player> getPlayers() {
         return ImmutableList.of(players.get(levelNumber));
     }
 
+    @Override
     public Level getLevel() {
         return levels.get(levelNumber);
     }
 
     @Override
     public void levelWon() {
+
+        //CHECK:OFF: MagicNumber
         if (levelNumber < 3) {
             levelNumber++;
             getLevel().registerPlayer(players.get(levelNumber));
@@ -48,6 +50,7 @@ public class MultiLevelGame extends Game {
             getLevel().start();
             return;
         }
+        //CHECK:ON: MagicNumber
         stop();
     }
 }

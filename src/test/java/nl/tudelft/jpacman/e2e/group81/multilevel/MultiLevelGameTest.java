@@ -24,41 +24,49 @@ public class MultiLevelGameTest extends GameTest {
         return new MultiLevelLauncher();
     }
 
-    void verifyLevelsWon(int levelsWon) {
-        assertThat(game.isInProgress()).isTrue();
-        verify(levelObserverMock, times(levelsWon)).levelWon();
-        verify(levelObserverMock, times(0)).levelLost();
+    private void verifyLevelsWon(int levelsWon) {
+        assertThat(getGame().isInProgress()).isTrue();
+        verify(getObserver(), times(levelsWon)).levelWon();
+        verify(getObserver(), times(0)).levelLost();
     }
 
+    /**
+     * Tests if a new level is started when the previous is won.
+     */
     @Test
     void testT1MultiLevel() {
         startGUI("/testMap2.txt");
         verifyGUIStarted();
 
-        game.start();
+        getGame().start();
         verifyPlaying();
         verifyLevelsWon(0);
 
-        game.getLevel().move(game.getPlayers().get(0), Direction.EAST);
+        getLevel().move(getGame().getPlayers().get(0), Direction.EAST);
         verifyPlaying();
         verifyLevelsWon(1);
     }
 
+    /**
+     * Tests if the game is won if four levels are won.
+     */
     @Test
     void testT4MultiLevel() {
         startGUI("/testMap2.txt");
         verifyGUIStarted();
 
-        game.start();
+        getGame().start();
         verifyPlaying();
 
+        //CHECK:OFF: MagicNumber
         for (int wonLevels = 0; wonLevels < 3; wonLevels++) {
-            game.getLevel().move(game.getPlayers().get(0), Direction.EAST);
-            game.getLevel().addObserver(levelObserverMock);
+            getGame().getLevel().move(getGame().getPlayers().get(0), Direction.EAST);
+            getGame().getLevel().addObserver(getObserver());
         }
         verifyLevelsWon(3);
+        //CHECK:ON: MagicNumber
 
-        game.getLevel().move(game.getPlayers().get(0), Direction.EAST);
+        getGame().getLevel().move(getGame().getPlayers().get(0), Direction.EAST);
         verifyWon();
     }
 }
