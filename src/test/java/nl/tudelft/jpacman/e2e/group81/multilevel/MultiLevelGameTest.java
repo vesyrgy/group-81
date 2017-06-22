@@ -39,7 +39,7 @@ public class MultiLevelGameTest extends GameTest {
         verifyPlaying();
         verifyLevelsWon(0);
 
-        level.move(game.getPlayers().get(0), Direction.EAST);
+        game.getLevel().move(game.getPlayers().get(0), Direction.EAST);
         verifyPlaying();
         verifyLevelsWon(1);
     }
@@ -53,11 +53,12 @@ public class MultiLevelGameTest extends GameTest {
         verifyPlaying();
 
         for (int wonLevels = 0; wonLevels < 3; wonLevels++) {
-            level.move(game.getPlayers().get(0), Direction.EAST);
+            game.getLevel().move(game.getPlayers().get(0), Direction.EAST);
+            game.getLevel().addObserver(levelObserverMock);
         }
         verifyLevelsWon(3);
 
-        level.move(game.getPlayers().get(0), Direction.EAST);
+        game.getLevel().move(game.getPlayers().get(0), Direction.EAST);
         verifyWon();
     }
 }

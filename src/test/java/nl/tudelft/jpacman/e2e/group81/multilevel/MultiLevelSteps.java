@@ -25,16 +25,22 @@ public class MultiLevelSteps {
 
     private MultiLevelLauncher launcher;
     private Game game;
-    private Player player;
     private Level.LevelObserver levelObserverMock;
+
+    public Player getPlayer() {
+        return game.getPlayers().get(0);
+    }
+
+    public Level getLevel() {
+        return game.getLevel();
+    }
 
     @Before("@multilevel")
     public void setup() {
         launcher = new MultiLevelLauncher();
-        launcher.withMapFile("testMap2.txt");
+        launcher.withMapFile("/testMap2.txt");
         launcher.launch();
         game = launcher.getGame();
-        player = game.getPlayers().get(0);
         levelObserverMock = mock(Level.LevelObserver.class);
         game.getLevel().addObserver(levelObserverMock);
     }
@@ -52,14 +58,13 @@ public class MultiLevelSteps {
 
     @Given("^my Pacman is next to a square containing a pellet$")
     public void myPacmanIsNextToASquareContainingAPellet() throws Throwable {
-        Square eastSquare = player.getSquare().getSquareAt(Direction.EAST);
+        Square eastSquare = getPlayer().getSquare().getSquareAt(Direction.EAST);
         assertThat(eastSquare.getOccupants().get(0) instanceof Pellet).isTrue();
     }
 
     @When("^I have eaten the last pellet$")
     public void iHaveEatenTheLastPellet() {
-        game.move(player, Direction.EAST);
-        assertThat(game.getLevel().remainingPellets()).isEqualTo(0);
+        game.move(getPlayer(), Direction.EAST);
     }
 
     @Then("^I win the level$")
@@ -70,13 +75,14 @@ public class MultiLevelSteps {
     @Then("^the next level starts$")
     public void theNextLevelStarts() {
         assertThat(game.isInProgress()).isTrue();
-        verify(game.getLevel().remainingPellets() > 0);
+        assertThat(game.getLevel().remainingPellets() > 0).isTrue();
     }
 
     @Given("^the current level is four$")
     public void theCurrentLevelIsFour() {
-        for (int levelNr = 1; levelNr < 4; levelNr++) {
-            game.move(player, Direction.EAST);
+        for (int levelNr = 0; levelNr < 3; levelNr++) {
+            game.getLevel().move(getPlayer(), Direction.EAST);
+            game.getLevel().addObserver(levelObserverMock);
         }
         verify(levelObserverMock, times(3)).levelWon();
         assertThat(game.isInProgress()).isTrue();
@@ -92,6 +98,4 @@ public class MultiLevelSteps {
     public void tearDownUI() {
         launcher.dispose();
     }
-
-
 }

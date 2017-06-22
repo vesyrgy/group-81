@@ -14,8 +14,11 @@ import org.junit.jupiter.api.Test;
 public abstract class GameTest {
     public Launcher launcher;
     public Game game;
-    public Level level;
     public Level.LevelObserver levelObserverMock;
+
+    public Level getLevel() {
+        return game.getLevel();
+    }
 
     public abstract Launcher getLauncher();
 
@@ -26,9 +29,8 @@ public abstract class GameTest {
         }
         launcher.launch();
         game = launcher.getGame();
-        level = game.getLevel();
         levelObserverMock = mock(Level.LevelObserver.class);
-        level.addObserver(levelObserverMock);
+        getLevel().addObserver(levelObserverMock);
     }
 
     public void verifyGUIStarted() {
@@ -52,7 +54,7 @@ public abstract class GameTest {
     }
 
     public void verifyLost() {
-        assertThat(level.isInProgress()).isFalse();
+        assertThat(game.isInProgress()).isFalse();
         verify(levelObserverMock).levelLost();
     }
 
@@ -62,7 +64,7 @@ public abstract class GameTest {
         verifyGUIStarted();
         game.start();
         verifyPlaying();
-        level.move(game.getPlayers().get(0), Direction.SOUTH);
+        getLevel().move(game.getPlayers().get(0), Direction.SOUTH);
         verifyLost();
     }
 
@@ -77,7 +79,7 @@ public abstract class GameTest {
         game.start();
         verifyPlaying();
 
-        assertThat(level.isInProgress()).isTrue();
+        assertThat(game.isInProgress()).isTrue();
         verify(levelObserverMock, times(0)).levelLost();
         verify(levelObserverMock, times(0)).levelWon();
     }

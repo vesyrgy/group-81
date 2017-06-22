@@ -20,7 +20,7 @@ public class SinglePlayerGameTest extends GameTest {
         verifyGUIStarted();
         game.start();
         verifyPlaying();
-        level.move(game.getPlayers().get(0), Direction.EAST);
+        getLevel().move(game.getPlayers().get(0), Direction.EAST);
         verifyWon();
     }
 }
