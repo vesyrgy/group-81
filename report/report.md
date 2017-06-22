@@ -68,9 +68,7 @@ scenarios in the game.
 
 ##3.3.9 
 
-![alt text](3.3.9_domain_matrix.png)
-
-See 3.3.9_domain_matrix.png
+![Domain Matrix](3.3.9_domain_matrix.png)
 
 
 #3.4 Understanding your tests
@@ -195,36 +193,58 @@ when using mocks, you are partly testing your mocks instead of the real implemen
 #5.1 State Machines
 
 ##5.1.31
-See report.pdf.
+![State Machine](5.1.31.png)
 
 ##5.2.32
-See report.pdf for transition tree.
+![Transition Tree](5.1.32.png)
 
-/ Test Case ID / Start State / Events             / End State   /
-/ ------------ / ----------- / ------------------ / ----------- /
-/ T1           / GUI Started / start, win         / Won         /
-/ T2           / GUI Started / start, loose       / Lost        /
-/ T3           / GUI Started / start, stop, start / Playing     /
+| Test Case ID | Start State | Events             | End State   |
+| :----------- | :---------- | :----------------- | :---------- |
+| T1           | GUI Started | start, win         | Won         |
+| T2           | GUI Started | start, loose       | Lost        |
+| T3           | GUI Started | start, stop, start | Playing     |
 
-##5.2.33
+##5.2.33                                                 
+| States      	| Events 	|         	|     	|      	|
+|:--------------|-----------|-----------|-------|-------|
+|             	| Stop   	| Start   	| Win 	| Lose 	|
+|               |-----------|-----------|-------|-------|
+| GUI Started 	|        	| Playing 	|     	|      	|
+| Playing     	| Paused 	|         	| Won 	| Lost 	|
+| Paused      	|        	| Playing 	|     	|      	|
 
-/ States      / events                         /
-/ ----------- / ------------------------------ /
-/             / stop   / start   / win / loose /
-/ ----------- / ------ / ------- / --- / ----- /
-/ GUI Started /        / Playing /     /       /
-/ Playing     / Paused /         / Won / Lost  /
-/ Paused      /        / Playing /     /       /
 
-(state, event) pairs not contained in diagram:
-(GUI Started, stop)
-(GUI Started, win)
-(GUI Started, loose)
-(Playing, start)
-(Paused, stop)
-(Paused, win)
-(Paused, loose)
+
+(state, event) pairs not contained in diagram: \
+(GUI Started, stop) \
+(GUI Started, win) \
+(GUI Started, loose) \
+(Playing, start) \
+(Paused, stop) \
+(Paused, win) \
+(Paused, loose) 
 
 #5.2 Multi-Level Games
+
+##5.2.37
+
+![Multilevel State Machine](5.2.37.png)
+
+##5.2.38
+
+| Test Case ID | Start State | Events                   | End State         |
+| ------------ | ----------- | -------------------------|------------------ |
+| T1           | GUI Started | start, win level (<4)    | Playing New Level |
+| T2           | GUI Started | start, lose              |   Lost            |
+| T3           | GUI Started | start, stop, start       | Playing Level     |
+| T4           | GUI Started | start, win level (=4)    |   Won Game        |
+
+T2 and T3 could almost be reused, since they don't involve any change in the level. But, it may still be necessary to 
+modify them slightly, since they should make use of the MultiGameLauncher, rather than the Launcher, T1 would have to be
+modified further.
+
+##5.2.45
+For both, MultiLevelLauncher and MultiLevelGame intellij reports 100% branch- and line coverage.
+
 
 #5.3 Test Smells

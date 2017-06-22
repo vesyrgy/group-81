@@ -2,90 +2,133 @@ package nl.tudelft.jpacman.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.atLeastOnce;
+import static org.mockito.Mockito.times;
+
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.group81.MyExtension;
 import nl.tudelft.jpacman.level.Level;
 import org.junit.jupiter.api.Test;
 
 /**
+ * Tests the state transitions.
  * Created by basjenneboer on 6/14/17.
  */
-public class GameTest {
-    Launcher launcher;
-    Game game;
-    Level level;
-    Level.LevelObserver levelObserverMock;
+@SuppressWarnings({"PMD.TooManyStaticImports", "PMD.TooManyMethods"})
+public abstract class GameTest {
+    private Game game;
+    private Level.LevelObserver levelObserverMock;
+    private static String ghostLessMap = "/testMap1.txt";
 
+    /**
+     * returns the current level.
+     * @return The level
+     */
+    public Level getLevel() {
+        return game.getLevel();
+    }
 
-    void startGUI(String mapFile) {
-        launcher = new MyExtension();
+    /**
+     * returns the LevelObserver mock.
+     * @return The LevelObser mock.
+     */
+    protected Level.LevelObserver getObserver() {
+        return levelObserverMock;
+    }
+
+    /**
+     * returns the game.
+     * @return The game
+     */
+    public Game getGame() {
+        return game;
+    }
+
+    /**
+     * Should be implemented by the different
+     * game types that should be tested.
+      * @return a Launcher.
+     */
+    public abstract Launcher getLauncher();
+
+    /**
+     * Starts a launcher with the given map file
+     * to enter the GUI Started state.
+     * @param mapFile custom map if not null.
+     */
+    protected void startGUI(String mapFile) {
+        Launcher launcher = getLauncher();
         if (mapFile != null) {
             launcher = launcher.withMapFile(mapFile);
         }
         launcher.launch();
         game = launcher.getGame();
-        level = game.getLevel();
         levelObserverMock = mock(Level.LevelObserver.class);
-        level.addObserver(levelObserverMock);
+        getLevel().addObserver(levelObserverMock);
     }
 
-    void verifyGUIStarted() {
+    /**
+     * Checks if in GUI Started state.
+     */
+    protected void verifyGUIStarted() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
+        verify(levelObserverMock, never()).levelLost();
+        verify(levelObserverMock, never()).levelWon();
     }
 
-    void verifyPlaying() {
-        assertThat(game.isInProgress());
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
+    /**
+     * Checks if in Playing state.
+     */
+    protected void verifyPlaying() {
+        assertThat(game.isInProgress()).isTrue();
     }
 
-    void verifyPaused() {
+    /**
+     * Checks if in Paused state.
+     */
+    private void verifyPaused() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
     }
 
-    void verifyWon() {
+    /**
+     * Checks if in Game Won state.
+     */
+    protected void verifyWon() {
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock).levelWon();
-        verify(levelObserverMock, times(0)).levelLost();
+        verify(levelObserverMock, atLeastOnce()).levelWon();
+        verify(levelObserverMock, never()).levelLost();
     }
 
-    void verifyLost() {
-        assertThat(level.isInProgress()).isFalse();
+    /**
+     * Checks if in Game Lost state.
+     */
+    private void verifyLost() {
+        assertThat(game.isInProgress()).isFalse();
         verify(levelObserverMock).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
     }
 
-    @Test
-    void testT1Conformance() {
-        startGUI("/testMap2.txt");
-        verifyGUIStarted();
-        game.start();
-        verifyPlaying();
-        level.move(game.getPlayers().get(0), Direction.EAST);
-        verifyWon();
-    }
-
+    /**
+     * Tests path: start, loose.
+     */
     @Test
     void testT2Conformance() {
         startGUI("/testMap1.txt");
         verifyGUIStarted();
         game.start();
         verifyPlaying();
-        level.move(game.getPlayers().get(0), Direction.SOUTH);
+        getLevel().move(game.getPlayers().get(0), Direction.SOUTH);
         verifyLost();
     }
 
+    /**
+     * Tests path: start, stop, start.
+     */
     @Test
     void testT3Conformance() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         verifyGUIStarted();
         game.start();
         verifyPlaying();
@@ -94,11 +137,14 @@ public class GameTest {
         game.start();
         verifyPlaying();
 
-        assertThat(level.isInProgress()).isTrue();
+        assertThat(game.isInProgress()).isTrue();
         verify(levelObserverMock, times(0)).levelLost();
         verify(levelObserverMock, times(0)).levelWon();
     }
 
+    /**
+     * Tests sneaky path: Stop when not playing yet.
+     */
     @Test
     void testSneakPathGUIStartedStop() {
         startGUI("/testMap2.txt");
@@ -108,14 +154,20 @@ public class GameTest {
         verifyGUIStarted();
     }
 
+    /**
+     * Tests sneaky path: Do a winning move when not playing yet.
+     */
     @Test
     void testSneakPathGUIStartedWin() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         verifyGUIStarted();
         game.move(game.getPlayers().get(0), Direction.EAST);
         verifyGUIStarted();
     }
 
+    /**
+     * Tests sneaky path: Do a losing move when not playing yet.
+     */
     @Test
     void testSneakPathGUIStartedLoose() {
         startGUI("/testMap3.txt");
@@ -125,9 +177,12 @@ public class GameTest {
         verifyGUIStarted();
     }
 
+    /**
+     * Tests sneaky path: Starting when already playing.
+     */
     @Test
     void testSneakPathPlayingStart() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         game.start();
         verifyPlaying();
 
@@ -135,9 +190,12 @@ public class GameTest {
         verifyPlaying();
     }
 
+    /**
+     * Tests sneaky path: Stopping when already paused.
+     */
     @Test
     void testSneakPathPausedStop() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         game.start();
         game.stop();
         verifyPaused();
@@ -146,9 +204,12 @@ public class GameTest {
         verifyPaused();
     }
 
+    /**
+     * Tests sneaky path: Make a winning move when paused.
+     */
     @Test
     void testSneakPathPausedWin() {
-        startGUI("/testMap2.txt");
+        startGUI(ghostLessMap);
         game.start();
         game.stop();
         verifyPaused();
@@ -157,6 +218,9 @@ public class GameTest {
         verifyPaused();
     }
 
+    /**
+     * Tests sneaky path; Do a losing move when paused.
+     */
     @Test
     void testSneakPathPausedLoose() {
         startGUI("/testMap3.txt");
