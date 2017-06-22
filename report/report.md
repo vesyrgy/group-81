@@ -243,6 +243,8 @@ T2 and T3 could almost be reused, since they don't involve any change in the lev
 modify them slightly, since they should make use of the MultiGameLauncher, rather than the Launcher, T1 would have to be
 modified further.
 
+##5.2.45
+For both, MultiLevelLauncher and MultiLevelGame intellij reports 100% branch- and line coverage.
 
 
 #5.3 Test Smells
