@@ -7,22 +7,22 @@ import static org.mockito.Mockito.verify;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
-import nl.tudelft.jpacman.group81.MyExtension;
 import nl.tudelft.jpacman.level.Level;
 import org.junit.jupiter.api.Test;
 
 /**
  * Created by basjenneboer on 6/14/17.
  */
-public class GameTest {
+public abstract class GameTest {
     Launcher launcher;
     Game game;
     Level level;
     Level.LevelObserver levelObserverMock;
 
+    public abstract Launcher getLauncher();
 
     void startGUI(String mapFile) {
-        launcher = new MyExtension();
+        launcher = getLauncher();
         if (mapFile != null) {
             launcher = launcher.withMapFile(mapFile);
         }
