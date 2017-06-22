@@ -29,9 +29,9 @@ public class MultiLevelLauncher extends MyExtension {
     @EnsuresNonNull("game")
     @Override
     public MultiLevelGame makeGame() {
-        GameFactory gf = getGameFactory();
-        Level level = makeLevel();
-        multiGame = (MultiLevelGame) gf.createSinglePlayerGame(level);
+        //GameFactory gf = getGameFactory();
+        //Level level = makeLevel();
+        multiGame = new MultiLevelGame();
         return multiGame;
     }
 
