@@ -1,9 +1,7 @@
 package nl.tudelft.jpacman.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 import nl.tudelft.jpacman.Launcher;
 import nl.tudelft.jpacman.board.Direction;
@@ -15,6 +13,7 @@ import org.junit.jupiter.api.Test;
  */
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class GameTest {
+
     private Launcher launcher;
     private Game game;
     private Level level;
@@ -33,6 +32,7 @@ public abstract class GameTest {
      * Start the GUI.
      */
     void startGUI(String mapFile) {
+
         launcher = getLauncher();
         if (mapFile != null) {
             launcher = launcher.withMapFile(mapFile);
@@ -48,10 +48,12 @@ public abstract class GameTest {
      *  Check that the GUI has started.
      */
     void verifyGUIStarted() {
+
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
+        verify(levelObserverMock, never()).levelLost();
+        verify(levelObserverMock, never()).levelWon();
     }
+
 
     /**
      *  Make sure the game is in the playing state.
@@ -66,18 +68,19 @@ public abstract class GameTest {
      *  Check if the game is paused.
      */
     void verifyPaused() {
+
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock, times(0)).levelLost();
-        verify(levelObserverMock, times(0)).levelWon();
     }
+
 
     /**
      *  Test if the level has been won.
      */
     void verifyWon() {
+
         assertThat(game.isInProgress()).isFalse();
-        verify(levelObserverMock).levelWon();
-        verify(levelObserverMock, times(0)).levelLost();
+        verify(levelObserverMock, atLeastOnce()).levelWon();
+        verify(levelObserverMock, never()).levelLost();
     }
 
     /**
@@ -100,6 +103,7 @@ public abstract class GameTest {
         verifyPlaying();
         level.move(game.getPlayers().get(0), Direction.EAST);
         verifyWon();
+
     }
 
     /**
@@ -111,7 +115,7 @@ public abstract class GameTest {
         verifyGUIStarted();
         game.start();
         verifyPlaying();
-        level.move(game.getPlayers().get(0), Direction.SOUTH);
+        game.getLevel().move(game.getPlayers().get(0), Direction.SOUTH);
         verifyLost();
     }
 
@@ -129,7 +133,7 @@ public abstract class GameTest {
         game.start();
         verifyPlaying();
 
-        assertThat(level.isInProgress()).isTrue();
+        assertThat(game.isInProgress()).isTrue();
         verify(levelObserverMock, times(0)).levelLost();
         verify(levelObserverMock, times(0)).levelWon();
     }
