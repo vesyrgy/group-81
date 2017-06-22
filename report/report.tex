@@ -380,9 +380,11 @@ Paused & & Playing & &\tabularnewline
 
 \subsection{5.2.37}\label{section-22}
 
-See
-https://www.lucidchart.com/invitations/accept/b5a4efc0-83c4-47bf-9222-d37494b348f6
-(image will be added to the report later)
+\begin{figure}
+\centering
+\includegraphics{5.2.37.png}
+\caption{Multilevel State Machine}
+\end{figure}
 
 \subsection{5.2.38}\label{section-23}
 
@@ -404,14 +406,118 @@ the level. But, it may still be necessary to modify them slightly, since
 they should make use of the MultiGameLauncher, rather than the Launcher,
 T1 would have to be modified further.
 
-\subsection{5.2.41}\label{section-24}
-
-//TODO (depends on 34)
-
-\subsection{5.2.}\label{section-25}
-
-//TODO (depends on 38)
-
 \section{5.3 Test Smells}\label{test-smells}
+
+\subsection{5.3.46}\label{section-24}
+
+Below, the \texttt{testWithinBorders} method has been changed to a
+smelly multiple assertions test. Instead of being parameterized and
+using a single \texttt{assertEquals}, the test now uses multiple asserts
+and multiple types of asserts. Since \texttt{assertTrue} and
+\texttt{assertFalse} don't give the expected and resulting values, it
+would be difficult to determine why the test failed, since there are
+multiple assertions that would give the same output on failure. In
+contrast to this, the original, parameterized version of this test
+allows us to identify specifically which input caused the test to fail.
+
+\begin{verbatim}
+@Test
+    void testWithinBorders(int x, int y, boolean z) {
+            int x = 0;
+            int y = 3;
+            assertTrue(board.withinBorders(x, y));
+           `y = -1;
+            assertFalse(board.withinBorders(x, y));
+            y = -6;
+            assertEquals(board.withinBorders(x, y), false);
+            y = 0;
+            x = -1;
+            assertFalse(board.withinBorders(x, y));
+            x = 3;
+            assertThat(board.withinBorders(x, y)).isEqualTo(true);
+            x = 1;
+            assertTrue(board.withinBorders(x, y));
+            x = 4;
+            y = 2;
+            assertEquals(board.withinBorders(x, y), false);
+            x = 2;
+            y = 5;
+            assertTrue(board.withinBorders(x, y));
+    }
+\end{verbatim}
+
+\subsection{5.3.47}\label{section-25}
+
+Below, the \texttt{testAddSquareGround} method from the
+\texttt{MapParserTest} class has been turned into an Irrelevant Details
+test. In contrast to the original test method, the method below does not
+use any mocks. As a result, the test could fail as a result of details
+that are irrelevant to the method that we want to test. For example, the
+improper implementation of BoardFactory, LevelFactory, and Square could
+all cause the test to fail for reasons that have nothing to do with the
+\texttt{addSquare} method that we wish to test. Futhermore, the use of
+\texttt{asssertTrue} further obfuscates the results, since it does not
+print the expected and actual values.
+
+\begin{verbatim}
+void testAddSquareGround() {
+        Square grid = new Square(1,1);
+        Square sq = new Square(1,1);
+        grid[0][0] = null;
+        BoardFactory bf = new BoardFactory();
+        LevelFactory lf = new LevelFactory();
+        MapParser mp = new MapParser(lf, bf);
+        List<NPC> gh = new ArrayList<>();
+        List<Square> = new ArrayList<>();
+
+        mp.addSquare(gr, gh, sp, 0, 0, ' ');
+        
+        assertTrue(gr[0][0] == sq);
+
+    }
+\end{verbatim}
+
+\section{5.5}\label{section-26}
+
+\subsection{5.5.48}\label{section-27}
+
+Three things that were good:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Our test coverage has improved significantly since part 1. It would be
+  very alarming if the opposite were true.
+\item
+  Our tests pass, which is always a good thing.
+\item
+  The JPacman Framework is a sufficiently complex piece of software such
+  that the work of developing tests for it was varied, challenging, and
+  interesting.
+\end{enumerate}
+
+Three things that were bad/annoying:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  The fact that DevHub could not handle the load/traffic at peak times
+  (e.g.~right before the deadline) was problematic. It seems to suggest
+  that DevHub has not been properly load tested. Perhaps this could be
+  fixed by allocating more resources to DevHub during peak hours.
+\item
+  PMD/Checkstyle/Findbugs can be really annoying because they often
+  complain about really stupid things and sometimes seem to complain
+  about nonexistent issues. This can be fixed by either ignoring certain
+  rules or by submitting bug reports (such as the TAs did in the case of
+  PMD).
+\item
+  Mockito is not necessarily the best option for mocking. Its
+  limitations, in terms of what it can or cannot mock or observe can be
+  frustrating at times. A more powerful framework such as PowerMock
+  might be a better alternative in the future.
+\end{enumerate}
 
 \end{document}

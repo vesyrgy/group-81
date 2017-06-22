@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.18)  22 JUN 2017 10:59
+This is pdfTeX, Version 3.14159265-2.6-1.40.17 (TeX Live 2016) (preloaded format=pdflatex 2017.4.18)  22 JUN 2017 18:21
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -955,7 +955,7 @@ keTest.java:69)
 [1
 
 {/usr/local/texlive/2016basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-<3.3.9_domain_matrix.png, id=157, 1298.8525pt x 279.0425pt>
+<3.3.9_domain_matrix.png, id=18, 1298.8525pt x 279.0425pt>
 File: 3.3.9_domain_matrix.png Graphic file (type png)
 
 <use 3.3.9_domain_matrix.png>
@@ -963,53 +963,101 @@ Package pdftex.def Info: 3.3.9_domain_matrix.png used on input line 151.
 (pdftex.def)             Requested size: 344.98703pt x 74.11621pt.
  [2 <./3.3.9_domain_matrix.png>] [3]
 
+Package longtable Warning: Column widths have changed
+(longtable)                in table 1 on input line 239.
+
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 2 on input line 252.
+
+
 Package hyperref Warning: Difference (2) between bookmark levels is greater 
 (hyperref)                than one, level fixed on input line 269.
 
-[4] [5] <5.1.31.png, id=181, 352.31625pt x 162.6075pt>
+[4] [5] <5.1.31.png, id=61, 352.31625pt x 162.6075pt>
 File: 5.1.31.png Graphic file (type png)
  <use 5.1.31.png>
 Package pdftex.def Info: 5.1.31.png used on input line 332.
 (pdftex.def)             Requested size: 344.99876pt x 159.2302pt.
 
-<5.1.32.png, id=182, 388.45125pt x 108.405pt>
+<5.1.32.png, id=62, 388.45125pt x 108.405pt>
 File: 5.1.32.png Graphic file (type png)
  <use 5.1.32.png>
 Package pdftex.def Info: 5.1.32.png used on input line 340.
 (pdftex.def)             Requested size: 345.00923pt x 96.28163pt.
- [6 <./5.1.31.png> <./5.1.32.png>] [7]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 417.
- [8]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 417.
- (./report.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 417.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 417.
-Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: B930000F8B584BC612A254BC9C391614;3645.
+ [6 <./5.1.31.png> <./5.1.32.png>]
 
+Package longtable Warning: Column widths have changed
+(longtable)                in table 3 on input line 353.
+
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 4 on input line 368.
+
+<5.2.37.png, id=74, 433.62pt x 174.35138pt>
+File: 5.2.37.png Graphic file (type png)
+ <use 5.2.37.png>
+Package pdftex.def Info: 5.2.37.png used on input line 385.
+(pdftex.def)             Requested size: 345.01738pt x 138.72572pt.
+
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 5 on input line 402.
+
+[7]
+LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 447
+.
+ (/usr/local/texlive/2016basic/texmf-dist/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+)
+Overfull \hbox (1.499pt too wide) in paragraph at lines 447--447
+[]            \T1/lmtt/m/n/10 assertThat(board.withinBorders(x, y)).isEqualTo(t
+rue);[] 
+ []
+
+[8 <./5.2.37.png>] [9]
+
+Package longtable Warning: Table widths have changed. Rerun LaTeX.
+
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 523.
+[10]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 523.
+ (./report.aux)
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 523.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 523.
+
+
+Package rerunfilecheck Warning: File `report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `report.out':
+(rerunfilecheck)             Before: D41D8CD98F00B204E9800998ECF8427E;0
+(rerunfilecheck)             After:  AAF47F44B7F622EF7B4F782F68BC9B90;3803.
 
 LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 417.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 523.
  ) 
 Here is how much of TeX's memory you used:
- 11982 strings out of 494447
- 172453 string characters out of 6166766
- 266303 words of memory out of 5000000
- 15097 multiletter control sequences out of 15000+600000
- 29445 words of font info for 51 fonts, out of 8000000 for 9000
+ 12010 strings out of 494447
+ 172942 string characters out of 6166766
+ 264713 words of memory out of 5000000
+ 15102 multiletter control sequences out of 15000+600000
+ 30082 words of font info for 56 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
- 32i,5n,38p,238b,432s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2016basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/l
-ocal/texlive/2016basic/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/
-texlive/2016basic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texli
-ve/2016basic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/201
-6basic/texmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2016basi
-c/texmf-dist/fonts/type1/public/lm/lmtt10.pfb>
-Output written on report.pdf (8 pages, 200252 bytes).
+ 32i,5n,38p,231b,457s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2016basic/texmf-dist/fonts/enc/dvips/lm/lm-ts1.enc}{/usr/
+local/texlive/2016basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/local/tex
+live/2016basic/texmf-dist/fonts/type1/public/lm/lmbx10.pfb></usr/local/texlive/
+2016basic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/texlive/2016b
+asic/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/local/texlive/2016basic/t
+exmf-dist/fonts/type1/public/lm/lmri10.pfb></usr/local/texlive/2016basic/texmf-
+dist/fonts/type1/public/lm/lmtt10.pfb>
+Output written on report.pdf (10 pages, 210722 bytes).
 PDF statistics:
- 235 PDF objects out of 1000 (max. 8388607)
- 213 compressed objects within 3 object streams
- 53 named destinations out of 1000 (max. 500000)
- 6448 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 148 PDF objects out of 1000 (max. 8388607)
+ 124 compressed objects within 2 object streams
+ 64 named destinations out of 1000 (max. 500000)
+ 6165 words of extra memory for PDF output out of 10000 (max. 10000000)
 
